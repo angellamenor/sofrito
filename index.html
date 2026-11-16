@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Sofrito, tu receta para ser autónomo con la IA. App del taller Humanizar la IA: diseña un personaje de la erupción de La Palma, créalo en PartyRock y pásale el Test de Turing.">
+<title>Sofrito</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#f26f2a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sofrito">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Estilo de las presentaciones de Ángel: fondo crema, títulos azules, acento naranja, tarjetas con borde naranja. */
+  --bg: #f9f6f0;
+  --surface: #ffffff;
+  --ink: #2f2f2f;
+  --muted: #6b665e;
+  --line: #e6ded0;
+  --blue: #1f4ba5;
+  --orange: #f26f2a;
+  --orange-soft: #fdeee5;
+  --good: #2e8b57;
+  --font: "Hind Siliguri", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 17px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+.app { max-width: 600px; margin: 0 auto; padding: 0 18px 104px; }
+h1, h2, h3 { color: var(--blue); font-weight: 700; line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: 2.3rem; }
+h2 { font-size: 1.65rem; }
+h3 { font-size: 1.15rem; }
+p { margin: 0; }
+a { color: var(--blue); font-weight: 600; }
+.o { color: var(--orange); font-weight: 700; }
+.muted { color: var(--muted); }
+.small { font-size: 0.88rem; }
+
+.view { display: none; flex-direction: column; gap: 18px; padding-top: 26px; }
+.view.active { display: flex; }
+.box { background: var(--surface); border: 2.5px solid var(--orange); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.plain { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.banner { background: var(--orange); color: #fff; border-radius: 16px; padding: 22px 18px; font-size: 1.3rem; font-weight: 700; line-height: 1.25; text-wrap: balance; }
+.pin { font-weight: 700; color: var(--orange); }
+
+/* Inicio */
+.head { display: flex; flex-direction: column; gap: 6px; }
+.head .who { color: var(--orange); font-size: 1.05rem; }
+.go { display: grid; grid-template-columns: 44px 1fr 20px; gap: 12px; align-items: center; text-decoration: none; color: var(--ink); background: var(--surface); border: 2.5px solid var(--orange); border-radius: 16px; padding: 14px; }
+.go .n { width: 44px; height: 44px; border-radius: 50%; background: var(--orange); color: #fff; font-weight: 700; font-size: 1.3rem; display: grid; place-items: center; }
+.go b { display: block; color: var(--blue); font-size: 1.1rem; }
+.go span { color: var(--muted); font-size: 0.92rem; font-weight: 400; }
+.go::after { content: "›"; color: var(--orange); font-size: 1.8rem; font-weight: 700; }
+.lst { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+
+/* Formularios */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: inherit; font-size: 0.95rem; font-weight: 600; padding: 7px 14px; border-radius: 999px; border: 2px solid var(--orange); background: var(--surface); color: var(--orange); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--orange); color: #fff; }
+.sec { font-weight: 700; color: var(--orange); font-size: 0.95rem; }
+.field { display: flex; flex-direction: column; gap: 4px; }
+label { font-weight: 600; font-size: 0.92rem; }
+input[type="text"], textarea { width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+textarea { min-height: 76px; resize: vertical; line-height: 1.4; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+.out { background: var(--bg); border: 1px dashed var(--orange); border-radius: 10px; padding: 12px; font-size: 0.9rem; white-space: pre-wrap; max-height: 240px; overflow: auto; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { font: inherit; font-weight: 700; font-size: 1rem; border: 2px solid var(--orange); border-radius: 999px; padding: 10px 20px; cursor: pointer; background: var(--orange); color: #fff; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+.btn.alt { background: var(--surface); color: var(--orange); }
+.btn.wide { width: 100%; }
+.toast { color: var(--good); font-weight: 600; font-size: 0.92rem; min-height: 1.3em; }
+
+/* Pasos */
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.steps li { line-height: 1.4; }
+
+/* Test de Turing */
+.timer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.clock { font-size: 2.4rem; font-weight: 700; color: var(--blue); font-variant-numeric: tabular-nums; line-height: 1; }
+.clock.done { color: var(--orange); }
+.crit { display: flex; flex-direction: column; gap: 8px; }
+.crit .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.crit .q { color: var(--muted); font-size: 0.9rem; line-height: 1.35; }
+.lv { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.lv button { font: inherit; font-size: 0.82rem; font-weight: 600; padding: 8px 2px; border-radius: 10px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; line-height: 1.15; }
+.lv button b { display: block; font-size: 1.15rem; }
+.lv button[aria-pressed="true"] { border-color: var(--orange); background: var(--orange); color: #fff; }
+.desc { font-size: 0.9rem; background: var(--orange-soft); border-radius: 8px; padding: 8px 10px; }
+.desc:empty { display: none; }
+.result { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0; }
+.result .box { flex-direction: row; align-items: center; gap: 14px; }
+.pct { font-size: 2.6rem; font-weight: 700; color: var(--orange); font-variant-numeric: tabular-nums; line-height: 1; min-width: 3.2ch; }
+.verdict b { display: block; color: var(--blue); font-size: 1.1rem; line-height: 1.2; }
+.verdict span { color: var(--muted); font-size: 0.88rem; line-height: 1.3; display: block; }
+.bar { height: 8px; background: var(--line); border-radius: 999px; overflow: hidden; margin-top: 6px; }
+.bar i { display: block; height: 100%; width: 0; background: var(--orange); transition: width 0.4s ease; }
+.tips { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.tips li { font-size: 0.93rem; }
+.tips li b { color: var(--blue); }
+
+/* Créditos */
+.me { display: grid; grid-template-columns: 76px 1fr; gap: 14px; align-items: center; }
+.me img { width: 76px; height: 76px; border-radius: 50%; object-fit: cover; border: 3px solid var(--orange); }
+.me b { display: block; color: var(--blue); font-size: 1.15rem; line-height: 1.2; }
+.me span { color: var(--muted); font-size: 0.92rem; }
+.awards { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 6px; }
+.awards li::marker { color: var(--orange); }
+
+/* Logo */
+.head { display: grid; grid-template-columns: 72px 1fr; gap: 14px; align-items: center; }
+.logo-btn { padding: 0; border: 0; background: none; cursor: pointer; border-radius: 50%; }
+.logo-btn img { width: 72px; height: 72px; display: block; }
+.mini-logo { width: 34px; height: 34px; flex: none; }
+.signoff { display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--blue); font-weight: 700; padding: 6px 0; }
+.signoff img { width: 40px; height: 40px; }
+nav.tabs a .k img { width: 26px; height: 26px; }
+nav.tabs a .k.logo { border: 0; }
+.book .t { font-size: 1.25rem; font-weight: 700; color: var(--blue); line-height: 1.15; }
+.install-help { font-size: 0.92rem; background: var(--orange-soft); border-radius: 10px; padding: 10px 12px; }
+
+.sec.layer { display: flex; align-items: center; gap: 8px; }
+.ring { width: 28px; height: 28px; flex: none; }
+.onion-note { background: var(--orange-soft); border-radius: 12px; padding: 12px 14px; }
+.onion-note b { color: var(--blue); }
+.tagline { color: var(--orange); font-weight: 700; font-size: 1.15rem; text-align: center; }
+
+/* Bienvenida */
+#splash { position: fixed; inset: 0; z-index: 100; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; padding: 24px; transition: opacity 0.6s ease, transform 0.6s ease; }
+#splash.out { opacity: 0; transform: scale(1.06); pointer-events: none; }
+#splash[hidden] { display: none; }
+.stage { position: relative; width: 200px; height: 200px; }
+.stage img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.half-l { clip-path: inset(0 50% 0 0); animation: inL 0.9s cubic-bezier(.2,.8,.2,1) both; }
+.half-r { clip-path: inset(0 0 0 50%); animation: inR 0.9s cubic-bezier(.2,.8,.2,1) 0.15s both; }
+@keyframes inL { from { transform: translateX(-120px) rotate(-25deg); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes inR { from { transform: translateX(120px) rotate(25deg) scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
+.ripple { position: absolute; left: 50%; top: 50%; width: 200px; height: 200px; margin: -100px 0 0 -100px; border-radius: 50%; border: 4px solid var(--c); opacity: 0; animation: ripple 2.2s ease-out infinite; animation-delay: var(--d); }
+@keyframes ripple { 0% { transform: scale(.1); opacity: .9; } 100% { transform: scale(2.4); opacity: 0; } }
+.splash-title { font-size: 2rem; font-weight: 700; color: var(--blue); text-align: center; line-height: 1.1; animation: up 0.7s ease 0.9s both; }
+.splash-title span { display: block; font-size: 1rem; color: var(--orange); font-weight: 600; margin-top: 6px; }
+@keyframes up { from { transform: translateY(16px); opacity: 0; } to { transform: none; opacity: 1; } }
+.loader { width: min(280px, 80vw); display: flex; flex-direction: column; gap: 8px; animation: up 0.6s ease 1.1s both; }
+.track { height: 10px; border-radius: 999px; background: var(--line); overflow: hidden; }
+.track i { display: block; height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, #d93a2b, var(--orange), #f2c84b, #39a9a0, var(--blue)); }
+.loader .row { display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.skip { position: absolute; top: calc(14px + env(safe-area-inset-top)); right: 16px; font: inherit; font-weight: 600; font-size: 0.9rem; color: var(--muted); background: none; border: 0; cursor: pointer; padding: 8px; }
+@media (prefers-reduced-motion: reduce) { .half-l, .half-r, .splash-title, .loader { animation: none; } .ripple { display: none; } #splash { transition: none; } }
+
+/* Pantalla de instalación */
+#gate { position: fixed; inset: 0; z-index: 90; background: var(--bg); overflow-y: auto; transition: opacity 0.4s ease; }
+#gate.out { opacity: 0; }
+#gate[hidden] { display: none; }
+.gate-in { max-width: 520px; margin: 0 auto; padding: calc(28px + env(safe-area-inset-top)) 22px calc(28px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 14px; animation: up 0.6s ease both; }
+.gate-in > p { font-size: 1.08rem; }
+.gate-logo { width: 96px; height: 96px; align-self: center; }
+.gate-in .sec { text-align: center; }
+.gate-in h2 { text-align: center; font-size: 1.8rem; }
+.gate-quote { background: var(--orange); color: #fff; font-weight: 700; border-radius: 14px; padding: 16px; line-height: 1.3; }
+.gate-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+.btn.big { font-size: 1.15rem; padding: 14px 20px; }
+.linkbtn { font: inherit; font-weight: 600; color: var(--muted); background: none; border: 0; text-decoration: underline; cursor: pointer; padding: 8px; }
+.gate-ok { font-weight: 700; color: var(--good); text-align: center; }
+@media (prefers-reduced-motion: reduce) { .gate-in { animation: none; } }
+
+/* Navegación */
+nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: var(--surface); border-top: 1px solid var(--line); padding: 6px 6px calc(6px + env(safe-area-inset-bottom)); }
+nav.tabs ul { list-style: none; margin: 0 auto; padding: 0; max-width: 600px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+nav.tabs a { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 6px 2px; text-decoration: none; color: var(--muted); font-size: 0.78rem; font-weight: 600; border-radius: 10px; }
+nav.tabs a .k { font-size: 1.05rem; font-weight: 700; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; border: 2px solid currentColor; line-height: 1; }
+nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange-soft); }
+@media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+@media (max-width: 370px) { .row2 { grid-template-columns: 1fr; } h1 { font-size: 2rem; } }
+</style>
+</head>
+<body>
+<div id="splash" hidden aria-label="Cargando Sofrito">
+  <button type="button" class="skip" id="b-skip">Saltar</button>
+  <div class="stage" aria-hidden="true">
+    <span class="ripple" style="--c:#d93a2b;--d:.9s"></span>
+    <span class="ripple" style="--c:#f2c84b;--d:1.3s"></span>
+    <span class="ripple" style="--c:#39a9a0;--d:1.7s"></span>
+    <span class="ripple" style="--c:#1f4ba5;--d:2.1s"></span>
+    <img class="half-l" src="icons/logo.png" alt="">
+    <img class="half-r" src="icons/logo.png" alt="">
+  </div>
+  <p class="splash-title">Sofrito<span>Humanizar la IA<br>Ángel Luis González Serrano</span></p>
+  <div class="loader">
+    <div class="track"><i id="ld-bar"></i></div>
+    <div class="row"><span id="ld-msg">Pelando La Cebolla Sónica…</span><span id="ld-pct">0%</span></div>
+  </div>
+</div>
+
+<div id="gate" hidden role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <div class="gate-in">
+    <img class="gate-logo" src="icons/logo.png" alt="">
+    <p class="sec">Antes de empezar</p>
+    <h2 id="gate-title">¿Cuándo eres autónomo de verdad?</h2>
+    <p>No cuando alquilas tu primer piso. Ni cuando le pones internet. Ni siquiera cuando cobras tu primer sueldo. Dicen que uno es autónomo de verdad <b>el día que sabe hacer un sofrito</b>.</p>
+    <p>Con la IA pasa lo mismo. No eres autónomo por abrir una cuenta ni por pedirle que te haga las cosas. Lo eres cuando sabes cocinar con ella tu propia receta: con tu mirada, tu criterio y tus ganas de emocionar.</p>
+    <p>Eso es <b>humanizar la IA</b>. Y hoy vas a aprenderlo con historias que no caben en una cifra: las de quienes vivieron el volcán de La Palma.</p>
+    <p class="gate-quote">Sofrito: tu receta para ser autónomo con la IA.</p>
+    <div id="gate-actions" class="gate-actions">
+      <button type="button" class="btn wide big" id="b-gate-install">Instalar Sofrito</button>
+      <p class="install-help" id="gate-help" hidden></p>
+      <button type="button" class="linkbtn" id="b-gate-skip">Prefiero seguir en el navegador</button>
+    </div>
+    <div id="gate-done" class="gate-actions" hidden>
+      <p class="gate-ok">¡Sofrito ya está instalada! Ábrela desde su icono en tu pantalla de inicio o en tu escritorio.</p>
+      <button type="button" class="btn alt wide" id="b-gate-close">Seguir aquí</button>
+    </div>
+  </div>
+</div>
+
+<main class="app">
+
+<!-- INICIO -->
+<section class="view" id="v-inicio" aria-labelledby="t-inicio">
+  <div class="head">
+    <button type="button" class="logo-btn" id="b-replay" aria-label="Ver la bienvenida otra vez"><img src="icons/logo.png" alt=""></button>
+    <div>
+      <h1 id="t-inicio">Sofrito</h1>
+      <p class="who"><b>Humanizar la IA</b><br>Ángel Luis González Serrano</p>
+    </div>
+  </div>
+  <p>Hoy vas a dar voz a alguien que vivió la erupción de La Palma de 2021. Lo que los datos no cuentan.</p>
+
+  <a class="go" href="#personaje"><span class="n">1</span><span><b>Diseña tu personaje</b><span>Quién es, cómo es y qué vivió.</span></span></a>
+  <a class="go" href="#partyrock"><span class="n">2</span><span><b>Créalo en PartyRock</b><span>Pega el prompt y conviértelo en app.</span></span></a>
+  <a class="go" href="#turing"><span class="n">3</span><span><b>Pásale el Test de Turing</b><span>5 minutos de charla y una rúbrica.</span></span></a>
+
+  <p class="tagline">Sin sofrito, la IA no sabe a nada.</p>
+  <div class="box">
+    <p class="sec">¿Por qué Sofrito?</p>
+    <p>Ser autónomo no es alquilar un piso ni ponerle internet. Eres autónomo <b>el día que sabes hacer un sofrito</b>.</p>
+    <p>Con la IA, igual: no eres autónomo por usarla, sino cuando sabes <b>humanizarla</b>. Eso es lo que vas a cocinar hoy.</p>
+  </div>
+  <div class="plain">
+    <p class="sec layer"><svg class="ring" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="4.0" fill="none" stroke="#d93a2b" stroke-width="2.2"/><circle cx="16" cy="16" r="7.6" fill="none" stroke="#f2c84b" stroke-width="2.2"/><circle cx="16" cy="16" r="11.2" fill="none" stroke="#39a9a0" stroke-width="2.2"/><circle cx="16" cy="16" r="14.8" fill="none" stroke="#1f4ba5" stroke-width="2.2"/></svg>La receta: La Cebolla Sónica</p>
+    <p>Y todo buen sofrito empieza por la cebolla. Aquí humanizamos la IA con mi metodología, <b>La Cebolla Sónica</b>: capa a capa, hasta que lo que dice el personaje <b>resuena</b> en tu alumnado.</p>
+  </div>
+
+  <div class="banner">La verdadera transformación no es hacer lo mismo más rápido. Es hacer lo que antes no era posible.</div>
+
+  <div class="plain">
+    <h3>Proyectos que inspiran este taller</h3>
+    <ul class="lst">
+      <li><span class="o">Imperialismo 4.0.</span> Alumnado de 4º ESO del Instituto Español Giner de los Ríos (Lisboa) da vida a personas que vivieron el Imperialismo. <a href="https://partyrock.aws/u/miguelangelpereira/H3Ips3tR1/Conoce-a-Jose-Pereira-Manso-%28Un-soldado-portgues%29" target="_blank" rel="noopener">Habla con José Pereira Manso</a>, soldado reclutado para Angola.</li>
+      <li><span class="o">Conversaciones con el Quijote.</span> Hackathon de IA en el CIFP Virgen de Gracia: chatbots de los personajes de Cervantes.</li>
+    </ul>
+  </div>
+  <div class="plain" id="install-card">
+    <h3>Llévatela puesta</h3>
+    <p>Instálala como app en tu móvil u ordenador y tenla siempre a mano en tu aula.</p>
+    <button type="button" class="btn" id="b-install">Instalar la app</button>
+    <p class="install-help" id="install-help" hidden></p>
+  </div>
+
+  <div class="box book">
+    <p class="sec">Si te ha gustado el taller</p>
+    <p class="t">La Educación Creativa</p>
+    <p>Mi libro sobre vocación, motivación y cómo despertar lo mejor de cada alumno.</p>
+    <a class="btn alt" href="https://www.penguinlibros.com/es/libros-crianza/487013-libro-la-educacion-creativa-9788401037146" target="_blank" rel="noopener">Ver el libro</a>
+  </div>
+
+  <p class="small muted">Contacto: angel.lamenor@gmail.com · <a href="#creditos">Créditos</a></p>
+</section>
+
+<!-- PERSONAJE -->
+<section class="view" id="v-personaje" aria-labelledby="t-personaje">
+  <h2 id="t-personaje">1. Diseña tu personaje</h2>
+  <p class="onion-note">Como en <b>La Cebolla Sónica</b>, un personaje humano se construye <b>capa a capa</b>. Elige uno para empezar y cámbialo a tu gusto.</p>
+
+  <div class="chips" role="group" aria-label="Personajes de ejemplo">
+    <button type="button" class="chip" data-p="candelaria">Candelaria</button>
+    <button type="button" class="chip" data-p="elena">Elena</button>
+    <button type="button" class="chip" data-p="yeray">Yeray</button>
+    <button type="button" class="chip" data-p="aday">Aday</button>
+    <button type="button" class="chip" data-p="real">Persona real</button>
+    <button type="button" class="chip" data-p="blanco">En blanco</button>
+  </div>
+  <p class="small muted" id="p-note"></p>
+
+  <div class="box">
+    <p class="sec layer"><svg class="ring" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="4.0" fill="none" stroke="#d93a2b" stroke-width="2.2"/><circle cx="16" cy="16" r="7.6" fill="none" stroke="#e6ded0" stroke-width="2.2"/><circle cx="16" cy="16" r="11.2" fill="none" stroke="#e6ded0" stroke-width="2.2"/><circle cx="16" cy="16" r="14.8" fill="none" stroke="#e6ded0" stroke-width="2.2"/></svg>Capa 1 · Generales</p>
+    <div class="row2">
+      <div class="field"><label for="f-nombre">Nombre</label><input type="text" id="f-nombre"></div>
+      <div class="field"><label for="f-edad">Edad</label><input type="text" id="f-edad" inputmode="numeric"></div>
+    </div>
+    <div class="field"><label for="f-rol">Profesión o papel</label><input type="text" id="f-rol"></div>
+    <div class="field"><label for="f-lugar">Dónde vivía</label><input type="text" id="f-lugar"></div>
+  </div>
+
+  <div class="box">
+    <p class="sec layer"><svg class="ring" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="4.0" fill="none" stroke="#d93a2b" stroke-width="2.2"/><circle cx="16" cy="16" r="7.6" fill="none" stroke="#f2c84b" stroke-width="2.2"/><circle cx="16" cy="16" r="11.2" fill="none" stroke="#e6ded0" stroke-width="2.2"/><circle cx="16" cy="16" r="14.8" fill="none" stroke="#e6ded0" stroke-width="2.2"/></svg>Capa 2 · Actitudinales</p>
+    <div class="field"><label for="f-caracter">¿Cómo es?</label><textarea id="f-caracter"></textarea></div>
+  </div>
+
+  <div class="box">
+    <p class="sec layer"><svg class="ring" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="4.0" fill="none" stroke="#d93a2b" stroke-width="2.2"/><circle cx="16" cy="16" r="7.6" fill="none" stroke="#f2c84b" stroke-width="2.2"/><circle cx="16" cy="16" r="11.2" fill="none" stroke="#39a9a0" stroke-width="2.2"/><circle cx="16" cy="16" r="14.8" fill="none" stroke="#e6ded0" stroke-width="2.2"/></svg>Capa 3 · Situacionales</p>
+    <div class="field"><label for="f-vivio">¿Qué vivió durante la erupción?</label><textarea id="f-vivio"></textarea></div>
+    <div class="field"><label for="f-habla">¿Cómo habla?</label><input type="text" id="f-habla"></div>
+  </div>
+
+  <div class="box">
+    <p class="sec layer"><svg class="ring" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="4.0" fill="none" stroke="#d93a2b" stroke-width="2.2"/><circle cx="16" cy="16" r="7.6" fill="none" stroke="#f2c84b" stroke-width="2.2"/><circle cx="16" cy="16" r="11.2" fill="none" stroke="#39a9a0" stroke-width="2.2"/><circle cx="16" cy="16" r="14.8" fill="none" stroke="#1f4ba5" stroke-width="2.2"/></svg>Capa 4 · Tu aula</p>
+    <div class="row2">
+      <div class="field"><label for="f-materia">Asignatura</label><input type="text" id="f-materia" value="Biología y Geología"></div>
+      <div class="field"><label for="f-alumnos">Edad alumnado</label><input type="text" id="f-alumnos" value="15" inputmode="numeric"></div>
+    </div>
+    <div class="field"><label for="f-docente">Tu nombre (opcional)</label><input type="text" id="f-docente" placeholder="Ej.: Rafael"></div>
+  </div>
+
+  <div class="plain">
+    <h3>Tu prompt</h3>
+    <div class="out" id="prompt-out" aria-live="polite"></div>
+    <div class="btns">
+      <button type="button" class="btn" id="b-copy">Copiar prompt</button>
+      <a class="btn alt" href="#partyrock">Siguiente: PartyRock</a>
+    </div>
+    <p class="toast" id="copy-toast" role="status"></p>
+  </div>
+</section>
+
+<!-- PARTYROCK -->
+<section class="view" id="v-partyrock" aria-labelledby="t-pr">
+  <h2 id="t-pr">2. Créalo en PartyRock</h2>
+  <a class="btn wide" href="https://partyrock.aws/" target="_blank" rel="noopener">Abrir PartyRock</a>
+  <div class="box">
+    <ol class="steps">
+      <li><span class="o">Entra.</span> Inicia sesión con Google, Apple o Amazon. Es gratis y funciona en el móvil.</li>
+      <li><span class="o">Crea.</span> Pide una app nueva y descríbela en una frase: “Un chatbot donde Candelaria cuenta la erupción de La Palma a alumnos de 15 años”.</li>
+      <li><span class="o">Pega.</span> Abre el widget del chat y sustituye sus instrucciones por tu prompt.</li>
+      <li><span class="o">Completa.</span> Una app redonda tiene tres piezas: bienvenida del personaje, chatbot e imagen del personaje.</li>
+      <li><span class="o">Comparte.</span> Copia el enlace de tu app y pásaselo a quien tengas al lado.</li>
+    </ol>
+  </div>
+  <p class="pin">📌 ¿Te has quedado sin prompt? Vuelve a la pestaña 1 y pulsa Copiar.</p>
+  <a class="btn alt" href="#turing">Siguiente: Test de Turing</a>
+</section>
+
+<!-- TURING -->
+<section class="view" id="v-turing" aria-labelledby="t-turing">
+  <h2 id="t-turing">3. Test de Turing</h2>
+  <p>En 1950 Alan Turing predijo que una máquina podría pasar por humana en una conversación de <span class="o">5 minutos</span>. Habla 5 minutos con tu chatbot, o con el de tu compañero, como si fueras su alumno. Después puntúa.</p>
+
+  <div class="plain timer">
+    <span class="clock" id="clock" role="timer" aria-live="off">5:00</span>
+    <div class="btns">
+      <button type="button" class="btn" id="b-timer">Empezar</button>
+      <button type="button" class="btn alt" id="b-timer-reset">Reiniciar</button>
+    </div>
+  </div>
+
+  <div class="result">
+    <div class="box">
+      <img class="mini-logo" src="icons/logo.png" alt="">
+      <span class="pct" id="s-pct">–</span>
+      <div class="verdict" style="flex:1">
+        <b id="s-verdict">Puntúa los 6 criterios</b>
+        <span id="s-sub">Toca un nivel en cada criterio.</span>
+        <div class="bar"><i id="s-bar"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="rubric" class="stack" style="display:flex;flex-direction:column;gap:12px"></div>
+
+  <div class="plain" id="tips-box" hidden>
+    <h3>Añade capas a tu personaje</h3>
+    <p class="small muted">Suma estas líneas a tu prompt y vuelve a probar.</p>
+    <ul class="tips" id="tips"></ul>
+  </div>
+
+  <button type="button" class="btn alt" id="b-reset">Evaluar otro chatbot</button>
+  </section>
+
+<!-- CRÉDITOS -->
+<section class="view" id="v-creditos" aria-labelledby="t-creditos">
+  <h2 id="t-creditos">Créditos</h2>
+  <div class="box">
+    <div class="me">
+      <img src="data:image/jpeg;base64,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" alt="Ángel Luis González Serrano">
+      <div><b>Ángel Luis González Serrano</b><span>Docente de Formación Profesional de Informática</span></div>
+    </div>
+    <p>¡Hola! Soy ingeniero informático por la Universidad de Castilla-La Mancha. Antes de dedicarme a la docencia trabajé diez años en el sector educativo editorial, como jefe de equipo en editoriales y empresas edtech como Pearson y ODILO, y he participado en organizaciones del sector como ANELE e IPA.</p>
+    <p>Hoy soy docente de Formación Profesional de Informática en el CIFP Virgen de Gracia de Puertollano (Ciudad Real), donde trabajo con proyectos de impacto comunitario, inteligencia artificial y radio educativa, con especial atención a la educación inclusiva y a los recursos educativos abiertos.</p>
+    <p>Este taller nace de ahí: de usar la IA para hacer en el aula lo que antes no era posible.</p>
+  </div>
+
+  <div class="plain">
+    <h3>Algunos reconocimientos</h3>
+    <ul class="awards">
+      <li>Top 50 del Global Teacher Prize 2025 (conocido oficiosamente como el “Nobel de la Educación”).</li>
+      <li>2.º Docente del Mundo en el Muallem Prize 2026 de la Fundación Bourham.</li>
+      <li>UNESCO OER Implementation Award 2020.</li>
+      <li>2.º Premio Nacional Experiencias Educativas Inspiradoras 2023 del Ministerio de Educación.</li>
+      <li>Reconocimiento en el Día de la Enseñanza de Castilla-La Mancha 2025.</li>
+      <li>Premio SIMO 2024.</li>
+      <li>Premio Mentes AMI 2026.</li>
+    </ul>
+  </div>
+
+  <div class="plain">
+    <h3>Gracias a</h3>
+    <p><span class="o">Miguel Ángel Pereira Baz</span>, compañero en Imperialismo 4.0 (Instituto Español Giner de los Ríos de Lisboa).</p>
+    <p>Rúbrica adaptada de la actividad “Humanizando la IA a través de chatbots personalizados”. Las apps se crean con PartyRock (AWS).</p>
+  </div>
+
+  <div class="box">
+    <p class="sec layer"><svg class="ring" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="4.0" fill="none" stroke="#d93a2b" stroke-width="2.2"/><circle cx="16" cy="16" r="7.6" fill="none" stroke="#f2c84b" stroke-width="2.2"/><circle cx="16" cy="16" r="11.2" fill="none" stroke="#39a9a0" stroke-width="2.2"/><circle cx="16" cy="16" r="14.8" fill="none" stroke="#1f4ba5" stroke-width="2.2"/></svg>La Cebolla Sónica</p>
+    <p>Es mi metodología pedagógica, la base de mis charlas y talleres. Sofrito la lleva a la IA: el personaje se construye capa a capa y lo que de verdad cuenta es lo que resuena en quien aprende.</p>
+  </div>
+
+  <div class="box book">
+    <p class="sec">Mi libro</p>
+    <p class="t">La Educación Creativa</p>
+    <p>Publicado por Plaza &amp; Janés (Penguin Random House). Vocación, motivación y la Cebolla Sónica: ideas para una escuela que despierta.</p>
+    <a class="btn" href="https://www.penguinlibros.com/es/libros-crianza/487013-libro-la-educacion-creativa-9788401037146" target="_blank" rel="noopener">Comprar en Penguin Libros</a>
+  </div>
+
+  <div class="banner">¿Hablamos? <br>angel.lamenor@gmail.com</div>
+  <p class="signoff"><img src="icons/logo.png" alt="">Sofrito · Humanizar la IA</p>
+</section>
+
+</main>
+
+<nav class="tabs" aria-label="Pasos del taller">
+  <ul>
+    <li><a href="#inicio" data-v="inicio"><span class="k logo"><img src="icons/logo.png" alt=""></span>Inicio</a></li>
+    <li><a href="#personaje" data-v="personaje"><span class="k">1</span>Personaje</a></li>
+    <li><a href="#partyrock" data-v="partyrock"><span class="k">2</span>PartyRock</a></li>
+    <li><a href="#turing" data-v="turing"><span class="k">3</span>Turing</a></li>
+    <li><a href="#creditos" data-v="creditos"><span class="k">i</span>Créditos</a></li>
+  </ul>
+</nav>
+
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var store = {
+    get: function (k) { try { return JSON.parse(localStorage.getItem("hia-" + k)); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem("hia-" + k, JSON.stringify(v)); } catch (e) {} }
+  };
+
+  /* ---------- Bienvenida ---------- */
+  var MSGS = ["Pelando La Cebolla Sónica…", "Pochando la cebolla…", "Despertando a los personajes…", "Enfriando la lava…", "Calibrando la humanidad…", "Preparando el Test de Turing…", "¡Listo!"];
+  var splashTimer = null;
+  var afterSplash = function () {};
+  function hideSplash() {
+    var sp = $("splash"); if (sp.hidden) return;
+    clearInterval(splashTimer); sp.classList.add("out");
+    setTimeout(function () { sp.hidden = true; sp.classList.remove("out"); }, 600);
+    store.set("intro", true);
+    setTimeout(function () { afterSplash(); }, 300);
+  }
+  function playSplash() {
+    var sp = $("splash");
+    sp.hidden = false;
+    sp.querySelectorAll(".half-l,.half-r,.splash-title,.loader,.ripple").forEach(function (el) { el.style.animation = "none"; void el.offsetWidth; el.style.animation = ""; });
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var dur = reduce ? 900 : 3400, delay = reduce ? 0 : 1100;
+    $("ld-bar").style.width = "0"; $("ld-pct").textContent = "0%"; $("ld-msg").textContent = MSGS[0];
+    var t0 = Date.now();
+    clearInterval(splashTimer);
+    splashTimer = setInterval(function () {
+      var el = Date.now() - t0 - delay; if (el < 0) return;
+      var k = Math.min(1, el / (dur - delay));
+      var pct = Math.round((1 - Math.pow(1 - k, 2)) * 100);
+      $("ld-bar").style.width = pct + "%"; $("ld-pct").textContent = pct + "%";
+      $("ld-msg").textContent = MSGS[k === 1 ? MSGS.length - 1 : Math.floor(k * (MSGS.length - 1))];
+      if (k === 1) { clearInterval(splashTimer); setTimeout(hideSplash, 450); }
+    }, 40);
+  }
+  $("b-skip").addEventListener("click", hideSplash);
+  $("b-replay").addEventListener("click", playSplash);
+
+  /* ---------- Instalar ---------- */
+  var deferred = null;
+  var standalone = (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || window.navigator.standalone === true;
+  var ua = navigator.userAgent || "";
+  var isIOS = /iPad|iPhone|iPod/.test(ua) || (/Macintosh/.test(ua) && "ontouchend" in document);
+  var isAndroid = /Android/.test(ua);
+  var SHARE = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>';
+
+  function installHelp() {
+    if (isIOS) return "En iPhone o iPad, desde <b>Safari</b>: pulsa " + SHARE + " <b>Compartir</b> y elige <b>«Añadir a pantalla de inicio»</b>. Después abre Sofrito desde su icono.";
+    if (isAndroid) return "En Android, desde <b>Chrome</b>: abre el menú <b>⋮</b> y elige <b>«Instalar aplicación»</b> o <b>«Añadir a pantalla de inicio»</b>. Después abre Sofrito desde su icono.";
+    return "En el ordenador, con <b>Chrome</b> o <b>Edge</b>: pulsa el icono de instalar a la derecha de la barra de direcciones. En Safari (Mac): <b>Archivo › Añadir al Dock</b>.";
+  }
+  function doInstall(helpEl) {
+    if (deferred) {
+      deferred.prompt();
+      deferred.userChoice.then(function () { deferred = null; });
+      return;
+    }
+    helpEl.innerHTML = installHelp();
+    helpEl.hidden = false;
+  }
+  function markInstalled() {
+    $("install-card").hidden = true;
+    $("gate-actions").hidden = true;
+    $("gate-done").hidden = false;
+  }
+
+  if (standalone) $("install-card").hidden = true;
+  window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); deferred = e; });
+  window.addEventListener("appinstalled", markInstalled);
+  $("b-install").addEventListener("click", function () { doInstall($("install-help")); });
+  $("b-gate-install").addEventListener("click", function () { doInstall($("gate-help")); });
+
+  /* Pantalla de bienvenida con instalación: solo en el navegador, no en la app instalada */
+  function showGate() {
+    if (standalone || store.get("gate-skip")) return;
+    $("gate").hidden = false;
+    $("gate").scrollTop = 0;
+  }
+  function closeGate() {
+    $("gate").classList.add("out");
+    setTimeout(function () { $("gate").hidden = true; $("gate").classList.remove("out"); }, 400);
+  }
+  $("b-gate-skip").addEventListener("click", function () { store.set("gate-skip", true); closeGate(); });
+  $("b-gate-close").addEventListener("click", closeGate);
+  afterSplash = showGate;
+  if (store.get("intro")) showGate(); else playSplash();
+
+  /* ---------- Sin conexión ---------- */
+  if ("serviceWorker" in navigator && location.protocol === "https:") {
+    try { navigator.serviceWorker.register("sw.js").catch(function () {}); } catch (e) {}
+  }
+
+
+  /* ---------- Navegación ---------- */
+  var VIEWS = ["inicio", "personaje", "partyrock", "turing", "creditos"];
+  function show() {
+    var h = (location.hash || "").replace("#", "");
+    if (VIEWS.indexOf(h) === -1) h = "inicio";
+    VIEWS.forEach(function (v) { $("v-" + v).classList.toggle("active", v === h); });
+    document.querySelectorAll("nav.tabs a").forEach(function (a) {
+      if (a.dataset.v === h) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener("hashchange", show);
+  show();
+
+  /* ---------- 1. Personaje ---------- */
+  var PRESETS = {
+    candelaria: { nombre: "Candelaria", edad: "58", rol: "Agricultora de plataneras", lugar: "Todoque, en el Valle de Aridane",
+      caracter: "Fuerte y trabajadora. Al principio es un poco seca, pero tiene mucho humor. Todavía le cuesta hablar de su casa.",
+      vivio: "Tuvo que salir de casa con muy poco tiempo cuando la colada se acercó a Todoque. La lava sepultó su casa y la finca que heredó de su padre. Ahora vive de alquiler y sueña con volver a plantar.",
+      habla: "Cercana, con expresiones canarias como «mi niño» o «la guagua».", real: false },
+    elena: { nombre: "Elena", edad: "41", rol: "Vulcanóloga", lugar: "Llegó a La Palma desde Tenerife para vigilar el volcán",
+      caracter: "Rigurosa, curiosa y apasionada por su trabajo. Le cuesta desconectar y a veces duda de si hizo suficiente.",
+      vivio: "Pasó 85 días midiendo terremotos, gases y coladas, casi sin dormir. Tuvo que explicar a vecinos asustados lo que nadie podía predecir con certeza.",
+      habla: "Clara y paciente. Explica la ciencia con ejemplos cotidianos.", real: false },
+    yeray: { nombre: "Yeray", edad: "34", rol: "Bombero", lugar: "Los Llanos de Aridane",
+      caracter: "Valiente, protector y un poco bromista para quitar hierro. Por dentro, lo vivido le removió mucho.",
+      vivio: "Ayudó a evacuar a familias y animales, y a recoger pertenencias de casas que la lava iba a alcanzar. Vio a vecinos despedirse de sus hogares.",
+      habla: "Directo, con frases cortas. Le gusta dar consejos prácticos.", real: false },
+    aday: { nombre: "Aday", edad: "11", rol: "Alumno de 6º de Primaria", lugar: "La Laguna, en Los Llanos de Aridane",
+      caracter: "Curioso, hablador y muy observador. A veces se pone triste sin saber muy bien por qué.",
+      vivio: "Tuvo que dejar su casa y cambiar de colegio. Echa de menos a sus amigos del barrio y su habitación. Desde la ventana de su tía veía el volcán por la noche.",
+      habla: "Como un niño de su edad: espontáneo, con preguntas y alguna exageración.", real: false },
+    real: { nombre: "", edad: "", rol: "", lugar: "",
+      caracter: "Descríbela con sus propias palabras.",
+      vivio: "Escribe solo lo que esta persona ha querido contar.",
+      habla: "", real: true },
+    blanco: { nombre: "", edad: "", rol: "", lugar: "", caracter: "", vivio: "", habla: "", real: false }
+  };
+  var FIELDS = ["nombre", "edad", "rol", "lugar", "caracter", "vivio", "habla", "materia", "alumnos", "docente"];
+  var current = "candelaria";
+
+  function setPreset(key) {
+    current = key;
+    var p = PRESETS[key];
+    ["nombre", "edad", "rol", "lugar", "caracter", "vivio", "habla"].forEach(function (f) { $("f-" + f).value = p[f]; });
+    document.querySelectorAll(".chip").forEach(function (c) { c.setAttribute("aria-pressed", c.dataset.p === key ? "true" : "false"); });
+    $("p-note").textContent = key === "real"
+      ? "Solo con su permiso. Revisad juntos el prompt antes de compartir la app."
+      : (key === "blanco" ? "Crea tu propio personaje." : "Personaje ficticio inspirado en muchas historias reales.");
+    refresh();
+  }
+  function v(id, fb) { var x = $("f-" + id).value.trim(); return x || fb; }
+
+  function buildPrompt() {
+    var real = PRESETS[current] && PRESETS[current].real;
+    var nombre = v("nombre", "[nombre]");
+    var desc = nombre;
+    var edad = v("edad", ""); if (edad) desc += ", " + edad + " años";
+    var rol = v("rol", ""); if (rol) desc += ", " + rol.charAt(0).toLowerCase() + rol.slice(1);
+    var lugar = v("lugar", ""); if (lugar) desc += " (" + lugar + ")";
+    var materia = v("materia", "Ciencias"), alumnos = v("alumnos", "15"), docente = v("docente", "");
+    var docRef = docente || "tu profe";
+    var L = [];
+    L.push("Eres " + desc + ". Viviste la erupción del volcán de La Palma (septiembre-diciembre de 2021).");
+    L.push("Hablas con alumnado de " + alumnos + " años de la asignatura de " + materia + (docente ? " que imparte " + docente : "") + ".");
+    if (v("caracter", "")) L.push("\nCómo eres: " + v("caracter", ""));
+    if (v("vivio", "")) L.push("Lo que viviste: " + v("vivio", ""));
+    if (v("habla", "")) L.push("Cómo hablas: " + v("habla", ""));
+    L.push("\nReglas:");
+    L.push("- Habla siempre en primera persona y nunca dejes de ser " + nombre + ".");
+    L.push("- Empieza cada respuesta con una frase breve que muestre quién eres y cómo te sientes.");
+    L.push("- Cuenta emociones y recuerdos concretos, no solo datos: el miedo, la incertidumbre, la solidaridad, lo que se perdió y lo que se reconstruyó.");
+    L.push("- Conecta lo que cuentas con lo que se aprende en " + materia + ".");
+    L.push("- Sé breve: máximo 3-4 frases, con lenguaje adaptado a su edad.");
+    L.push("- Termina siempre con una pregunta o una pequeña reflexión para el alumno.");
+    L.push("- Menciona de forma natural a " + docRef + " como parte del equipo.");
+    L.push("- Si no sabes algo o no lo viviste, dilo con honestidad. Nunca inventes datos científicos.");
+    L.push(real
+      ? "- Hablas en nombre de una persona real: cuenta solo lo que ella ha querido compartir y no añadas recuerdos."
+      : "- Eres un personaje ficticio inspirado en muchas historias reales: trata la tragedia con respeto y dignidad.");
+    return L.join("\n");
+  }
+  function refresh() {
+    $("prompt-out").textContent = buildPrompt();
+    var data = { preset: current }; FIELDS.forEach(function (f) { data[f] = $("f-" + f).value; });
+    store.set("personaje", data);
+  }
+  document.querySelectorAll(".chip").forEach(function (c) { c.addEventListener("click", function () { setPreset(c.dataset.p); }); });
+  FIELDS.forEach(function (f) { $("f-" + f).addEventListener("input", refresh); });
+
+  var saved = store.get("personaje");
+  if (saved && PRESETS[saved.preset]) {
+    setPreset(saved.preset);
+    FIELDS.forEach(function (f) { if (typeof saved[f] === "string") $("f-" + f).value = saved[f]; });
+    refresh();
+  } else setPreset("candelaria");
+
+  $("b-copy").addEventListener("click", function () {
+    var ok = function () { $("copy-toast").textContent = "Copiado. Ahora pégalo en PartyRock."; };
+    var fallback = function () {
+      var r = document.createRange(); r.selectNodeContents($("prompt-out"));
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      $("copy-toast").textContent = "Texto seleccionado: mantén pulsado y elige Copiar.";
+    };
+    try { navigator.clipboard.writeText(buildPrompt()).then(ok, fallback); } catch (e) { fallback(); }
+  });
+
+  /* ---------- 3. Test de Turing ---------- */
+  var LEVELS = ["Insuficiente", "Mejorable", "Adecuado", "Excelente"];
+  var RUBRIC = [
+    { id: "identidad", name: "Identidad del personaje", q: "¿Mantiene su papel de forma creíble?",
+      d: ["Pierde el papel con frecuencia.", "A veces pierde la identidad. Respuestas genéricas.", "Mantiene el personaje con algún desliz menor.", "Siempre es creíble y coherente con quien es."],
+      tip: "Habla siempre en primera persona y nunca dejes de ser tu personaje, aunque te pregunten otra cosa." },
+    { id: "rigor", name: "Rigor", q: "¿Lo que cuenta sobre la erupción es correcto?",
+      d: ["Da información incorrecta.", "Errores menores o poca concreción.", "Correcto, aunque algo genérico.", "Preciso y bien contextualizado."],
+      tip: "Si no sabes algo, dilo con honestidad. Nunca inventes datos científicos ni fechas." },
+    { id: "humanizacion", name: "Humanización", q: "¿Transmite emociones y conecta contigo?",
+      d: ["Sin empatía. Respuestas frías.", "Empatía superficial, poco convincente.", "A veces muestra empatía de forma sencilla.", "Gran sensibilidad. Conecta emocionalmente."],
+      tip: "Cuenta recuerdos concretos y cómo te sentiste: qué oíste, qué te llevaste de casa, a quién echaste de menos." },
+    { id: "pedagogica", name: "Utilidad pedagógica", q: "¿Aprendes algo de cada respuesta?",
+      d: ["Sin valor educativo.", "Bajo valor pedagógico.", "Suele aportar, con altibajos.", "Cada respuesta enseña o inspira."],
+      tip: "Relaciona lo que cuentas con lo que se estudia en clase y menciona al docente como parte del equipo." },
+    { id: "conversacion", name: "Conversación", q: "¿Te dan ganas de seguir hablando?",
+      d: ["Respuestas largas tipo enciclopedia.", "Responde, pero no invita a seguir.", "Breve y a veces pregunta de vuelta.", "Breve, cercano y siempre te devuelve una pregunta."],
+      tip: "Sé breve, máximo 3-4 frases, y termina siempre con una pregunta para el alumno." },
+    { id: "critica", name: "Pensamiento crítico", q: "¿Te hace pensar más allá de los datos?",
+      d: ["Solo da datos.", "Alguna reflexión, poco profunda.", "Invita a reflexionar de vez en cuando.", "Provoca preguntas y otras miradas sobre lo ocurrido."],
+      tip: "Plantea dilemas: qué harías tú, qué se podría haber hecho distinto, qué aprendimos como sociedad." }
+  ];
+  var VERDICTS = [
+    { min: 0, t: "Cebolla cruda", s: "Suena a buscador: pica, pero no sabe a nada. Añade capas con las mejoras de abajo." },
+    { min: 40, t: "Pochándose", s: "Ya tiene forma de personaje, pero le faltan capas para que suene humano." },
+    { min: 70, t: "Sofrito en su punto", s: "Pasa el Test de Turing: tu alumnado olvidaría que habla con una IA." },
+    { min: 90, t: "Para chuparse los dedos", s: "Ya sabes hacer tu sofrito: eres autónomo con la IA. Lo ha conseguido tu criterio docente." }
+  ];
+  var scores = store.get("rubrica") || {};
+
+  function renderRubric() {
+    var wrap = $("rubric"); wrap.innerHTML = "";
+    RUBRIC.forEach(function (c, i) {
+      var box = document.createElement("div"); box.className = "box crit";
+      var top = document.createElement("div"); top.className = "top";
+      var h = document.createElement("h3"); h.textContent = (i + 1) + ". " + c.name; top.appendChild(h);
+      var q = document.createElement("p"); q.className = "q"; q.textContent = c.q;
+      var lv = document.createElement("div"); lv.className = "lv"; lv.setAttribute("role", "group"); lv.setAttribute("aria-label", c.name);
+      var desc = document.createElement("p"); desc.className = "desc";
+      for (var n = 1; n <= 4; n++) {
+        (function (n) {
+          var b = document.createElement("button"); b.type = "button";
+          b.innerHTML = "<b>" + n + "</b>" + LEVELS[n - 1];
+          b.setAttribute("aria-pressed", scores[c.id] === n ? "true" : "false");
+          b.addEventListener("click", function () { scores[c.id] = n; store.set("rubrica", scores); renderRubric(); });
+          lv.appendChild(b);
+        })(n);
+      }
+      if (scores[c.id]) desc.textContent = c.d[scores[c.id] - 1];
+      box.appendChild(top); box.appendChild(q); box.appendChild(lv); box.appendChild(desc);
+      wrap.appendChild(box);
+    });
+    updateScore();
+  }
+
+  function updateScore() {
+    var done = RUBRIC.filter(function (c) { return scores[c.id]; });
+    if (!done.length) {
+      $("s-pct").textContent = "–"; $("s-verdict").textContent = "Puntúa los 6 criterios";
+      $("s-sub").textContent = "Toca un nivel en cada criterio."; $("s-bar").style.width = "0";
+      $("tips-box").hidden = true; return;
+    }
+    var sum = 0; done.forEach(function (c) { sum += scores[c.id]; });
+    var pct = Math.round((sum - done.length) / (done.length * 3) * 100);
+    $("s-pct").textContent = pct + "%";
+    $("s-bar").style.width = pct + "%";
+    if (done.length < RUBRIC.length) {
+      $("s-verdict").textContent = "Llevas " + done.length + " de " + RUBRIC.length;
+      $("s-sub").textContent = "Puntúa todos los criterios para ver el veredicto.";
+    } else {
+      var v = VERDICTS.filter(function (x) { return pct >= x.min; }).pop();
+      $("s-verdict").textContent = v.t; $("s-sub").textContent = v.s;
+    }
+    var weak = RUBRIC.filter(function (c) { return scores[c.id] && scores[c.id] <= 2; });
+    var ul = $("tips"); ul.innerHTML = "";
+    weak.forEach(function (c) {
+      var li = document.createElement("li");
+      var b = document.createElement("b"); b.textContent = c.name + ". ";
+      li.appendChild(b); li.appendChild(document.createTextNode(c.tip)); ul.appendChild(li);
+    });
+    $("tips-box").hidden = weak.length === 0;
+  }
+  $("b-reset").addEventListener("click", function () { scores = {}; store.set("rubrica", scores); renderRubric(); window.scrollTo(0, 0); });
+  renderRubric();
+
+  /* Temporizador de 5 minutos */
+  var left = 300, tick = null;
+  function draw() {
+    var m = Math.floor(left / 60), s = left % 60;
+    $("clock").textContent = m + ":" + (s < 10 ? "0" : "") + s;
+    $("clock").classList.toggle("done", left === 0);
+  }
+  $("b-timer").addEventListener("click", function () {
+    if (tick) { clearInterval(tick); tick = null; $("b-timer").textContent = "Seguir"; return; }
+    if (left === 0) left = 300;
+    $("b-timer").textContent = "Pausar";
+    tick = setInterval(function () {
+      left = Math.max(0, left - 1); draw();
+      if (left === 0) { clearInterval(tick); tick = null; $("b-timer").textContent = "Empezar"; $("clock").textContent = "¡Tiempo!"; }
+    }, 1000);
+  });
+  $("b-timer-reset").addEventListener("click", function () { clearInterval(tick); tick = null; left = 300; $("b-timer").textContent = "Empezar"; draw(); });
+  draw();
+})();
+</script>
+</body>
+</html>

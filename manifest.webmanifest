@@ -1,0 +1,17 @@
+{
+  "name": "Sofrito · Humanizar la IA",
+  "short_name": "Sofrito",
+  "description": "Tu receta para ser autónomo con la IA. Diseña un personaje de la erupción de La Palma, créalo en PartyRock y pásale el Test de Turing.",
+  "lang": "es",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f9f6f0",
+  "theme_color": "#f26f2a",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
