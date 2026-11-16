@@ -1,5 +1,5 @@
 /* Sofrito: guarda la app para que abra rápido y funcione sin conexión. */
-const CACHE = "sofrito-v10";
+const CACHE = "sofrito-v12";
 const FILES = [
   "./", "./index.html", "./manifest.webmanifest",
   "./icons/logo.png", "./icons/icon-192.png", "./icons/icon-512.png",

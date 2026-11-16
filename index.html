@@ -156,6 +156,11 @@ textarea { min-height: 76px; resize: vertical; line-height: 1.4; }
 .awards { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 6px; }
 .awards li::marker { color: var(--orange); }
 .book .t { font-size: 1.25rem; font-weight: 700; color: var(--blue); line-height: 1.15; }
+.more summary { cursor: pointer; font-weight: 700; color: var(--blue); list-style: none; display: flex; align-items: center; gap: 6px; }
+.more summary::-webkit-details-marker { display: none; }
+.more summary::before { content: "+"; color: var(--orange); font-size: 1.3rem; line-height: 1; width: 1em; }
+.more[open] summary::before { content: "−"; }
+.more .awards { margin-top: 8px; }
 .signoff { display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--blue); font-weight: 700; padding: 6px 0; }
 .signoff img { width: 40px; height: 40px; }
 
@@ -244,7 +249,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     </div>
     <div id="gate-done" class="lst" hidden>
       <p class="gate-ok">¡Sofrito ya está instalada!</p>
-      <p class="install-help">Ábrela desde su icono en tu pantalla de inicio o en tu escritorio. Ya puedes cerrar esta ventana.</p>
+      <p class="install-help">Búscala en tu pantalla de inicio o en tu escritorio y ábrela desde su icono.</p>
     </div>
   </div>
 </div>
@@ -288,12 +293,11 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     <div class="lst" id="ideas"></div>
     <ol class="lst">
       <li><span class="o">3. PartyRock la cocina</span> sola: bienvenida, chat e imagen del personaje.</li>
-      <li><span class="o">4. Pruébala</span> con dos o tres preguntas. ¿Suena a persona o a buscador?</li>
+      <li><span class="o">4. Pruébala</span> con dos o tres preguntas.</li>
     </ol>
     <p class="toast" id="idea-toast" role="status"></p>
   </div>
 
-  <p class="soft">Casi seguro que suena a buscador. Normal: aún no tiene sofrito. <b>Eso lo arreglamos en el paso 2.</b></p>
   <a class="btn" href="#afina">Siguiente: Afina</a>
 </section>
 
@@ -421,57 +425,41 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
   <h2 id="t-creditos">Créditos</h2>
 
   <div class="box">
-    <p class="sec">¿Por qué Sofrito?</p>
-    <p>Ser autónomo no es alquilar un piso ni ponerle internet. Eres autónomo <b>el día que sabes hacer un sofrito</b>.</p>
-    <p>Con la IA, igual: no eres autónomo por usarla, sino cuando sabes <b>humanizarla</b>.</p>
-  </div>
-
-  <div class="box">
-    <p class="sec"><span class="ring" data-n="4"></span>La receta: La Cebolla Sónica</p>
-    <p>Todo buen sofrito empieza por la cebolla. <b>La Cebolla Sónica</b> es mi metodología pedagógica, la base de mis charlas y talleres. Sofrito la lleva a la IA: el personaje se construye capa a capa, hasta que lo que dice <b>resuena</b> en quien aprende.</p>
+    <p class="sec"><span class="ring" data-n="4"></span>Sobre Sofrito</p>
+    <p>Ser autónomo no es alquilar un piso ni ponerle internet: eres autónomo <b>el día que sabes hacer un sofrito</b>. Con la IA, igual: no eres autónomo por usarla, sino cuando sabes <b>humanizarla</b>.</p>
+    <p>Y todo buen sofrito empieza por la cebolla: <b>La Cebolla Sónica</b>, mi metodología pedagógica. El personaje se construye capa a capa, hasta que lo que dice <b>resuena</b> en quien aprende.</p>
   </div>
 
   <div class="box">
     <div class="me">
       <img src="data:image/jpeg;base64,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" alt="Ángel Luis González Serrano">
-      <div><b>Ángel Luis González Serrano</b><span>Docente de Formación Profesional de Informática</span></div>
+      <div><b>Ángel Luis González Serrano</b><span>Docente de FP de Informática · CIFP Virgen de Gracia (Puertollano)</span></div>
     </div>
-    <p>¡Hola! Soy ingeniero informático por la Universidad de Castilla-La Mancha. Antes de dedicarme a la docencia trabajé diez años en el sector educativo editorial, como jefe de equipo en editoriales y empresas edtech como Pearson y ODILO, y he participado en organizaciones del sector como ANELE e IPA.</p>
-    <p>Hoy soy docente de Formación Profesional de Informática en el CIFP Virgen de Gracia de Puertollano (Ciudad Real), donde trabajo con proyectos de impacto comunitario, inteligencia artificial y radio educativa, con especial atención a la educación inclusiva y a los recursos educativos abiertos.</p>
-    <p>Este taller nace de ahí: de usar la IA para hacer en el aula lo que antes no era posible.</p>
-  </div>
-
-  <div class="plain">
-    <h3>Algunos reconocimientos</h3>
-    <ul class="awards">
-      <li>Top 50 del Global Teacher Prize 2025 (conocido oficiosamente como el “Nobel de la Educación”).</li>
-      <li>2.º Docente del Mundo en el Muallem Prize 2026 de la Fundación Bourham.</li>
-      <li>UNESCO OER Implementation Award 2020.</li>
-      <li>2.º Premio Nacional Experiencias Educativas Inspiradoras 2023 del Ministerio de Educación.</li>
-      <li>Reconocimiento en el Día de la Enseñanza de Castilla-La Mancha 2025.</li>
-      <li>Premio SIMO 2024.</li>
-      <li>Premio Mentes AMI 2026.</li>
-    </ul>
-  </div>
-
-  <div class="plain">
-    <h3>Proyectos que inspiran este taller</h3>
-    <ul class="lst">
-      <li><span class="o">Imperialismo 4.0.</span> Alumnado de 4º ESO del Instituto Español Giner de los Ríos (Lisboa) da vida a personas que vivieron el Imperialismo, junto a Miguel Ángel Pereira Baz. <a href="https://partyrock.aws/u/miguelangelpereira/H3Ips3tR1/Conoce-a-Jose-Pereira-Manso-%28Un-soldado-portgues%29" target="_blank" rel="noopener">Habla con José Pereira Manso</a>, soldado reclutado para Angola.</li>
-      <li><span class="o">Conversaciones con el Quijote.</span> Hackathon de IA en el CIFP Virgen de Gracia: chatbots de los personajes de Cervantes.</li>
-    </ul>
+    <p>Ingeniero informático por la Universidad de Castilla-La Mancha. Antes de la docencia, diez años en el sector editorial educativo (Pearson, ODILO, ANELE, IPA). Hoy trabajo con proyectos de impacto comunitario, inteligencia artificial y radio educativa, con atención a la inclusión y a los recursos educativos abiertos.</p>
+    <details class="more">
+      <summary>Algunos reconocimientos</summary>
+      <ul class="awards">
+        <li>Top 50 del Global Teacher Prize 2025.</li>
+        <li>2.º Docente del Mundo en el Muallem Prize 2026 (Fundación Bourham).</li>
+        <li>UNESCO OER Implementation Award 2020.</li>
+        <li>2.º Premio Nacional Experiencias Educativas Inspiradoras 2023 (Ministerio de Educación).</li>
+        <li>Reconocimiento en el Día de la Enseñanza de Castilla-La Mancha 2025.</li>
+        <li>Premio SIMO 2024 y Premio Mentes AMI 2026.</li>
+      </ul>
+    </details>
   </div>
 
   <div class="box book">
     <p class="sec">Mi libro</p>
     <p class="t">La Educación Creativa</p>
-    <p>Publicado por Plaza &amp; Janés (Penguin Random House). Vocación, motivación y cómo despertar lo mejor de cada alumno.</p>
+    <p>Plaza &amp; Janés (Penguin Random House). Vocación, motivación y cómo despertar lo mejor de cada alumno.</p>
     <a class="btn" href="https://www.penguinlibros.com/es/libros-crianza/487013-libro-la-educacion-creativa-9788401037146" target="_blank" rel="noopener">Comprar en Penguin Libros</a>
   </div>
 
   <div class="plain">
-    <h3>Gracias a</h3>
-    <p>La rúbrica de evaluación está adaptada de la actividad “Humanizando la IA a través de chatbots personalizados”. Los chatbots se crean con PartyRock (AWS).</p>
+    <h3>Inspiración y gracias</h3>
+    <p><span class="o">Imperialismo 4.0</span>, con Miguel Ángel Pereira Baz (Instituto Español Giner de los Ríos, Lisboa): <a href="https://partyrock.aws/u/miguelangelpereira/H3Ips3tR1/Conoce-a-Jose-Pereira-Manso-%28Un-soldado-portgues%29" target="_blank" rel="noopener">habla con José Pereira Manso</a>. Y <span class="o">Conversaciones con el Quijote</span>, en el CIFP Virgen de Gracia.</p>
+    <p class="small muted">Rúbrica adaptada de “Humanizando la IA a través de chatbots personalizados”. Chatbots creados con PartyRock (AWS).</p>
   </div>
 
   <div class="banner">¿Hablamos?<br>__CONTACT__</div>
@@ -565,7 +553,19 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
 
   /* ---------- Instalación obligatoria ---------- */
   var deferred = null;
-  var standalone = (window.matchMedia && (window.matchMedia("(display-mode: standalone)").matches || window.matchMedia("(display-mode: window-controls-overlay)").matches)) || window.navigator.standalone === true;
+  function isStandalone() {
+    return (window.matchMedia && (window.matchMedia("(display-mode: standalone)").matches || window.matchMedia("(display-mode: window-controls-overlay)").matches)) || window.navigator.standalone === true;
+  }
+  var standalone = isStandalone();
+  // Si el navegador pasa esta misma ventana a modo app (Chrome en ordenador lo hace al instalar), se entra directamente.
+  function enterApp() { standalone = true; $("gate").hidden = true; }
+  if (window.matchMedia) {
+    ["(display-mode: standalone)", "(display-mode: window-controls-overlay)"].forEach(function (q) {
+      var mq = window.matchMedia(q);
+      var on = function (e) { if (e.matches) enterApp(); };
+      if (mq.addEventListener) mq.addEventListener("change", on); else if (mq.addListener) mq.addListener(on);
+    });
+  }
   var ua = navigator.userAgent || "";
   var isIOS = /iPad|iPhone|iPod/.test(ua) || (/Macintosh/.test(ua) && "ontouchend" in document);
   var isAndroid = /Android/.test(ua);
@@ -576,7 +576,13 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     return "<b>En el ordenador</b>, con Chrome o Edge: pulsa el icono de instalar a la derecha de la barra de direcciones. En Safari (Mac): <b>Archivo › Añadir al Dock</b>. Después abre Sofrito desde su icono.";
   }
   window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); deferred = e; });
-  window.addEventListener("appinstalled", function () { $("gate-actions").hidden = true; $("gate-done").hidden = false; });
+  window.addEventListener("appinstalled", function () {
+    // Esperamos un momento: si esta ventana se ha convertido en la app, entramos; si no, avisamos aquí mismo.
+    setTimeout(function () {
+      if (isStandalone()) { enterApp(); return; }
+      $("gate-actions").hidden = true; $("gate-done").hidden = false;
+    }, 600);
+  });
   $("b-gate-install").addEventListener("click", function () {
     if (deferred) { deferred.prompt(); deferred.userChoice.then(function () { deferred = null; }); return; }
     $("gate-help").innerHTML = installHelp(); $("gate-help").hidden = false;
@@ -586,7 +592,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
   if (bypass) { try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {} }
   show();
   function showGate() {
-    if (standalone || bypass) return;
+    if (isStandalone() || bypass) return;
     if (isIOS) { $("gate-help").innerHTML = installHelp(); $("gate-help").hidden = false; }
     $("gate").hidden = false;
   }
