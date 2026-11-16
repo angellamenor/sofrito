@@ -8,13 +8,13 @@ App del taller para docentes **Humanizar la IA**, de Ángel Luis González Serra
 
 Los participantes dan voz con IA a alguien que vivió la erupción de La Palma de 2021, en tres pasos y desde el móvil:
 
-1. **Diseña tu personaje**: rasgos generales, actitudinales y situacionales. La app genera el prompt listo para copiar.
-2. **Créalo en PartyRock**: pasos para convertir el prompt en una app de IA en https://partyrock.aws/.
-3. **Pásale el Test de Turing**: 5 minutos de conversación con temporizador y una rúbrica de 6 criterios que da el porcentaje de humanidad y sugiere mejoras para el prompt.
+1. **Crea**: el chatbot en https://partyrock.aws/ a partir de una frase.
+2. **Afina**: el personaje capa a capa (generales, actitudinales, situacionales y aula), siguiendo La Cebolla Sónica. Empieza en blanco y se pueden cargar ejemplos. Genera el prompt listo para pegar.
+3. **Evalúa**: analiza el prompt, 5 minutos de conversación con temporizador, rúbrica del Test de Turing de 6 criterios y botón «Mejorar mi prompt», que añade las capas que faltan.
 
 ## Uso
 
-Es una web instalable (PWA): se abre desde un enlace y se puede instalar como app con su icono en el móvil o en el ordenador. Una vez abierta, funciona también sin conexión. La primera vez muestra una animación de bienvenida (se puede repetir tocando el logo de Inicio).
+Es una web instalable (PWA): se abre desde un enlace y se puede instalar como app con su icono en el móvil o en el ordenador. Al abrirla en el navegador pide instalarla: se trabaja siempre con la app instalada. Para usarla en el navegador (por ejemplo, para proyectarla) añade `#web` al final de la dirección. Una vez instalada, funciona también sin conexión. La primera vez muestra una animación de bienvenida (se puede repetir tocando el logo de Inicio).
 
 Archivos:
 
