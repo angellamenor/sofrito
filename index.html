@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Sofrito, tu receta para ser autónomo con la IA. App del taller Humanizar la IA: crea un chatbot sobre la erupción de La Palma, afínalo capa a capa y evalúalo con el Test de Turing.">
+<meta name="description" content="Sofrito: deja de seguir recetas y crea las tuyas con IA. App del taller Humanizar la IA: crea un chatbot sobre la erupción de La Palma, afínalo capa a capa y evalúalo con el Test de Turing.">
 <title>Sofrito</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
@@ -89,7 +89,7 @@ b { font-weight: 700; }
 
 /* Crea */
 .url { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--surface); border: 2.5px solid var(--orange); border-radius: 16px; padding: 14px 16px; text-decoration: none; }
-.url b { color: var(--blue); font-size: 1.35rem; }
+.url > b { color: var(--blue); font-size: 1.35rem; }
 .url span { color: var(--muted); font-size: 0.9rem; font-weight: 400; display: block; }
 .url i { font-style: normal; background: var(--orange); color: #fff; border-radius: 999px; padding: 8px 14px; font-weight: 700; white-space: nowrap; }
 .idea { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; background: var(--bg); border: 1px dashed var(--orange); border-radius: 10px; padding: 10px 12px; font-size: 0.93rem; line-height: 1.35; }
@@ -126,6 +126,7 @@ textarea { min-height: 76px; resize: vertical; line-height: 1.4; }
 .ingr li.half { border-left-color: #e6a23c; }
 .ingr li.none { border-left-color: var(--bad); }
 .ingr b { font-size: 0.95rem; color: var(--ink); }
+.ingr .tip { grid-column: 1 / -1; color: var(--muted); font-size: 0.86rem; line-height: 1.35; }
 .dots { display: flex; gap: 4px; }
 .dots i { width: 12px; height: 12px; border-radius: 50%; background: var(--line); display: block; }
 .dots i.on { background: var(--orange); }
@@ -238,11 +239,13 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
   <div class="gate-in">
     <img class="gate-logo" src="icons/logo.png" alt="">
     <p class="sec">Antes de empezar</p>
-    <h2 id="gate-title">¿Cuándo eres autónomo de verdad?</h2>
-    <p>No cuando alquilas tu primer piso. Ni cuando le pones internet. Ni siquiera cuando cobras tu primer sueldo. Dicen que uno es autónomo de verdad <b>el día que sabe hacer un sofrito</b>.</p>
-    <p>Con la IA pasa lo mismo. No eres autónomo por abrir una cuenta ni por pedirle que te haga las cosas. Lo eres cuando sabes cocinar con ella tu propia receta: con tu mirada, tu criterio y tus ganas de emocionar.</p>
-    <p>Eso es <b>humanizar la IA</b>. Y aquí vas a aprenderlo con historias que no caben en una cifra: las de quienes vivieron el volcán de La Palma.</p>
-    <p class="gate-quote"><span>Sofrito:</span> tu receta para ser autónomo con la IA.</p>
+    <h2 id="gate-title">¿Cuándo eres mayor de verdad?</h2>
+    <p>No cuando cumples dieciocho años. Ni cuando consigues tu primer trabajo. Ni siquiera cuando te marchas de casa y estrenas tu propio piso.</p>
+    <p>Dicen que empiezas a ser mayor de verdad <b>el día que ya no tienes que llamar a tus padres para preguntar cómo se hace un sofrito</b>. Cuando abres la nevera, miras lo que tienes, te pones delante de los fogones y te apañas. Cuando dejas de seguir recetas ajenas y empiezas a cocinar las tuyas.</p>
+    <p>Con la inteligencia artificial pasa lo mismo. No basta con abrir una cuenta ni con pedirle que haga las cosas por nosotros. El verdadero aprendizaje llega cuando dejamos de depender de sus respuestas y empezamos a trabajar con ella desde nuestra manera de mirar el mundo.</p>
+    <p>Cuando sabemos qué cuestionar y qué aportar, la tecnología deja de pensar por nosotros y empieza a ayudarnos a expresar lo que llevamos dentro. Eso es <b>humanizar la IA</b>.</p>
+    <p>Y aquí vamos a aprenderlo a través de historias que no caben en una cifra ni en un algoritmo: las de quienes vivieron el volcán de La Palma. Porque hay cosas que ninguna inteligencia artificial puede sentir por nosotros, aunque sí puede ayudarnos a contarlas.</p>
+    <p class="gate-quote"><span>SOFRITO:</span> deja de seguir recetas y crea las tuyas con IA.</p>
     <div id="gate-actions" class="lst">
       <button type="button" class="btn wide big" id="b-gate-install">Instalar Sofrito</button>
       <p class="install-help" id="gate-help" hidden></p>
@@ -262,37 +265,38 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     <button type="button" class="logo-btn" id="b-replay" aria-label="Ver la bienvenida otra vez"><img src="icons/logo.png" alt=""></button>
     <div>
       <h1 id="t-inicio">Sofrito</h1>
-      <p class="who"><b>Humanizar la IA</b><br>Ángel Luis González Serrano</p>
+      <p class="who"><b>Deja de seguir recetas y crea las tuyas con IA.</b><br>Ángel Luis González Serrano</p>
     </div>
   </div>
-  <p>Da voz a alguien que vivió la erupción de La Palma de 2021. Lo que los datos no cuentan.</p>
+  <p>Haz que no se olvide la historia de alguien que vivió la erupción de La Palma en 2021. Lo que los fríos datos no cuentan.</p>
 
   <a class="go" href="#crea"><span class="n">1</span><span><b>Crea</b><span>Tu chatbot en PartyRock, en un minuto.</span></span></a>
   <a class="go" href="#afina"><span class="n">2</span><span><b>Afina</b><span>Dale alma a tu personaje, capa a capa.</span></span></a>
-  <a class="go" href="#evalua"><span class="n">3</span><span><b>Evalúa</b><span>Pásale el Test de Turing y mejora tu prompt.</span></span></a>
+  <a class="go" href="#evalua"><span class="n">3</span><span><b>Evalúa</b><span>Pásale el Test de Turing.</span></span></a>
 
   <p class="tagline">Sin sofrito, la IA no sabe a nada.</p>
-  <p class="foot small muted"><a href="#creditos">Créditos</a></p>
+  <p class="foot small muted"><a href="#info">Info</a></p>
 </section>
 
 <!-- 1. CREA -->
 <section class="view" id="v-crea" aria-labelledby="t-crea">
   <p class="stepno">Paso 1</p>
   <h2 id="t-crea">Crea tu chatbot</h2>
+  <p>No hace falta saber informática ni programar: <b>si sabes escribir una frase, sabes crear un chatbot</b>. Vamos a hacerlo con PartyRock, una herramienta que convierte lo que describes en una app de IA.</p>
 
   <a class="url" href="https://partyrock.aws/" target="_blank" rel="noopener">
-    <span><b>partyrock.aws</b><span>Gratis. Entra con Google, Apple o Amazon.</span></span>
+    <b>partyrock.aws</b>
     <i>Abrir</i>
   </a>
 
   <div class="box">
     <ol class="lst">
       <li><span class="o">1. Entra</span> en PartyRock e inicia sesión.</li>
-      <li><span class="o">2. Pide una app nueva</span> y descríbela en una frase. Copia una de estas ideas o escribe la tuya:</li>
+      <li><span class="o">2. Ve a «Usar IA»</span> y genera un <b>«Flow»</b>. Descríbelo en una frase y pide que tenga una imagen del personaje. Copia una de estas ideas o escribe una tuya parecida:</li>
     </ol>
     <div class="lst" id="ideas"></div>
     <ol class="lst">
-      <li><span class="o">3. PartyRock la cocina</span> sola: bienvenida, chat e imagen del personaje.</li>
+      <li><span class="o">3. Crea.</span> PartyRock monta tu app con la imagen del personaje y el chat.</li>
       <li><span class="o">4. Pruébala</span> con dos o tres preguntas.</li>
     </ol>
     <p class="toast" id="idea-toast" role="status"></p>
@@ -305,18 +309,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
 <section class="view" id="v-afina" aria-labelledby="t-afina">
   <p class="stepno">Paso 2</p>
   <h2 id="t-afina">Afina tu personaje</h2>
-  <p class="soft">Como en <b>La Cebolla Sónica</b>, un personaje humano se construye <b>capa a capa</b>. Rellena las capas y tendrás un prompt listo para pegar en tu chatbot.</p>
-
-  <div class="plain">
-    <p class="sec">¿Sin ideas? Carga un ejemplo</p>
-    <div class="chips" role="group" aria-label="Ejemplos de personaje">
-      <button type="button" class="chip" data-p="candelaria">Candelaria, agricultora</button>
-      <button type="button" class="chip" data-p="elena">Elena, vulcanóloga</button>
-      <button type="button" class="chip" data-p="yeray">Yeray, bombero</button>
-      <button type="button" class="chip" data-p="aday">Aday, 11 años</button>
-      <button type="button" class="chip ghost" id="b-clear">Vaciar</button>
-    </div>
-  </div>
+  <p>Como en <b>La Cebolla Sónica</b>, un personaje humano se construye <b>capa a capa</b>. Rellena las capas y tendrás un prompt listo para pegar en tu chatbot.</p>
 
   <div class="box">
     <p class="sec"><span class="ring" data-n="1"></span>Capa 1 · Generales</p>
@@ -350,46 +343,59 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
   </div>
 
   <div class="plain">
+    <p class="sec">¿Sin ideas? Carga un ejemplo</p>
+    <div class="chips" role="group" aria-label="Ejemplos de personaje">
+      <button type="button" class="chip" data-p="candelaria">Candelaria, agricultora</button>
+      <button type="button" class="chip" data-p="elena">Elena, vulcanóloga</button>
+      <button type="button" class="chip" data-p="yeray">Yeray, bombero</button>
+      <button type="button" class="chip" data-p="aday">Aday, 11 años</button>
+      <button type="button" class="chip ghost" id="b-clear">Vaciar</button>
+    </div>
+  </div>
+
+  <div class="plain">
     <h3>Tu prompt</h3>
     <div class="out" id="prompt-out" aria-live="polite"></div>
     <p class="small muted">Pégalo en las instrucciones del chat de tu app en PartyRock.</p>
     <div class="btns">
-      <button type="button" class="btn" id="b-copy">Copiar prompt</button>
-      <button type="button" class="btn alt" id="b-to-eval">Evaluarlo</button>
+      <button type="button" class="btn alt" id="b-copy">Copiar prompt</button>
     </div>
     <p class="toast" id="copy-toast" role="status"></p>
   </div>
+
+  <a class="btn" href="#evalua">Siguiente: Evaluarlo</a>
 </section>
 
 <!-- 3. EVALÚA -->
 <section class="view" id="v-evalua" aria-labelledby="t-evalua">
   <p class="stepno">Paso 3</p>
-  <h2 id="t-evalua">Evalúa y mejora</h2>
+  <h2 id="t-evalua">Evalúa tu chatbot</h2>
   <p>En 1950 Alan Turing predijo que una máquina podría pasar por humana en una conversación de <span class="o">5 minutos</span>. ¿Lo consigue tu chatbot?</p>
+  <p>Lo vamos a comprobar con <b>dos evaluaciones</b>: una <b>automática</b>, que revisa los ingredientes de tu prompt, y otra <b>humana</b>, la tuya, hablando con el chatbot como lo haría tu alumnado.</p>
 
   <div class="plain">
     <div class="verdict">
       <img src="icons/logo.png" alt="">
-      <div><b id="v-title">¿Cuánto sofrito tiene?</b><span id="v-sub">Pega tu prompt y pruébalo 5 minutos.</span></div>
+      <div><b id="v-title">¿Cuánto sofrito tiene?</b><span id="v-sub">Haz las dos evaluaciones.</span></div>
     </div>
     <div class="score-card">
-      <div class="meter off" id="m-prompt"><span class="lab">Tu prompt</span><span class="num" id="n-prompt">–</span><div class="bar"><i id="b-prompt"></i></div></div>
-      <div class="meter off" id="m-bot"><span class="lab">Tu chatbot</span><span class="num" id="n-bot">–</span><div class="bar"><i id="b-bot"></i></div></div>
+      <div class="meter off" id="m-prompt"><span class="lab">Automática · prompt</span><span class="num" id="n-prompt">–</span><div class="bar"><i id="b-prompt"></i></div></div>
+      <div class="meter off" id="m-bot"><span class="lab">Humana · chatbot</span><span class="num" id="n-bot">–</span><div class="bar"><i id="b-bot"></i></div></div>
     </div>
   </div>
 
   <div class="box">
-    <p class="sec">A · Pega tu prompt</p>
+    <p class="sec">A · Evaluación automática: tu prompt</p>
+    <p class="small muted">Aquí está el prompt de Afina. Si usas otro, pégalo encima.</p>
     <textarea class="big-ta" id="f-test" placeholder="Pega aquí las instrucciones de tu chatbot…"></textarea>
     <div class="btns">
       <button type="button" class="btn" id="b-analyze">Analizar</button>
-      <button type="button" class="btn alt" id="b-bring">Traer el de Afina</button>
     </div>
     <ul class="ingr" id="ingr" hidden></ul>
   </div>
 
   <div class="box">
-    <p class="sec">B · Habla 5 minutos con tu chatbot</p>
+    <p class="sec">B · Evaluación humana: habla 5 minutos con tu chatbot</p>
     <div class="timer">
       <span class="clock" id="clock" role="timer">5:00</span>
       <div class="btns">
@@ -400,34 +406,18 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     <p class="small muted">Pregúntale como lo haría tu alumnado. Después puntúa cómo ha respondido.</p>
     <div id="rubric"></div>
   </div>
-
-  <div class="box">
-    <p class="sec">C · Mejora tu sofrito</p>
-    <p>Sofrito añade a tu prompt las capas que le faltan. Las nuevas aparecen <mark class="hl">resaltadas</mark>.</p>
-    <button type="button" class="btn blue wide" id="b-improve">Mejorar mi prompt</button>
-    <div id="improved" class="lst" hidden>
-      <div class="compare"><span class="a" id="c-before"></span><span id="c-arrow">→</span><span class="b" id="c-after"></span></div>
-      <div class="out" id="improved-out"></div>
-      <div class="btns">
-        <button type="button" class="btn" id="b-copy-improved">Copiar prompt mejorado</button>
-        <a class="btn alt" href="https://partyrock.aws/" target="_blank" rel="noopener">Pegar en PartyRock</a>
-      </div>
-      <p class="small muted">Pégalo en tu chatbot, vuelve a hablar con él y repite. Así hasta que esté en su punto.</p>
-      <p class="toast" id="improve-toast" role="status"></p>
-    </div>
-  </div>
-
-  <button type="button" class="btn alt" id="b-reset">Evaluar otro chatbot</button>
 </section>
 
-<!-- CRÉDITOS -->
-<section class="view" id="v-creditos" aria-labelledby="t-creditos">
-  <h2 id="t-creditos">Créditos</h2>
+<!-- INFO -->
+<section class="view" id="v-info" aria-labelledby="t-info">
+  <h2 id="t-info">Info</h2>
 
   <div class="box">
     <p class="sec"><span class="ring" data-n="4"></span>Sobre Sofrito</p>
-    <p>Ser autónomo no es alquilar un piso ni ponerle internet: eres autónomo <b>el día que sabes hacer un sofrito</b>. Con la IA, igual: no eres autónomo por usarla, sino cuando sabes <b>humanizarla</b>.</p>
+    <p>Dicen que empiezas a ser mayor de verdad el día que ya no llamas a tus padres para preguntar cómo se hace un sofrito: abres la nevera, miras lo que tienes y te apañas.</p>
+    <p>Con la IA pasa lo mismo. El aprendizaje llega cuando <b>dejas de seguir recetas ajenas y empiezas a crear las tuyas</b>, desde tu manera de mirar el mundo. Eso es <b>humanizar la IA</b>.</p>
     <p>Y todo buen sofrito empieza por la cebolla: <b>La Cebolla Sónica</b>, mi metodología pedagógica. El personaje se construye capa a capa, hasta que lo que dice <b>resuena</b> en quien aprende.</p>
+    <p class="soft">Sofrito es un proyecto <b>gratuito y sin ánimo de lucro</b>, hecho con un único fin: ayudar a los docentes.</p>
   </div>
 
   <div class="box">
@@ -456,12 +446,6 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     <a class="btn" href="https://www.penguinlibros.com/es/libros-crianza/487013-libro-la-educacion-creativa-9788401037146" target="_blank" rel="noopener">Comprar en Penguin Libros</a>
   </div>
 
-  <div class="plain">
-    <h3>Inspiración y gracias</h3>
-    <p><span class="o">Imperialismo 4.0</span>, con Miguel Ángel Pereira Baz (Instituto Español Giner de los Ríos, Lisboa): <a href="https://partyrock.aws/u/miguelangelpereira/H3Ips3tR1/Conoce-a-Jose-Pereira-Manso-%28Un-soldado-portgues%29" target="_blank" rel="noopener">habla con José Pereira Manso</a>. Y <span class="o">Conversaciones con el Quijote</span>, en el CIFP Virgen de Gracia.</p>
-    <p class="small muted">Rúbrica adaptada de “Humanizando la IA a través de chatbots personalizados”. Chatbots creados con PartyRock (AWS).</p>
-  </div>
-
   <div class="banner">¿Hablamos?<br>angel.lamenor@gmail.com</div>
   <p class="signoff"><img src="icons/logo.png" alt="">Sofrito · Humanizar la IA</p>
 </section>
@@ -474,7 +458,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     <li><a href="#crea" data-v="crea"><span class="k">1</span>Crea</a></li>
     <li><a href="#afina" data-v="afina"><span class="k">2</span>Afina</a></li>
     <li><a href="#evalua" data-v="evalua"><span class="k">3</span>Evalúa</a></li>
-    <li><a href="#creditos" data-v="creditos"><span class="k">i</span>Créditos</a></li>
+    <li><a href="#info" data-v="info"><span class="k">i</span>Info</a></li>
   </ul>
 </nav>
 
@@ -510,7 +494,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
   });
 
   /* ---------- Navegación ---------- */
-  var VIEWS = ["inicio", "crea", "afina", "evalua", "creditos"];
+  var VIEWS = ["inicio", "crea", "afina", "evalua", "info"];
   function show() {
     var h = (location.hash || "").replace("#", "");
     if (VIEWS.indexOf(h) === -1) h = "inicio";
@@ -597,7 +581,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     $("gate").hidden = false;
   }
   afterSplash = showGate;
-  if (store.get("intro")) showGate(); else playSplash();
+  playSplash();
 
   if ("serviceWorker" in navigator && location.protocol === "https:") {
     try { navigator.serviceWorker.register("sw.js").catch(function () {}); } catch (e) {}
@@ -605,9 +589,9 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
 
   /* ---------- 1. Crea ---------- */
   var IDEAS = [
-    "Un chatbot donde Candelaria, agricultora de Todoque, cuenta a alumnos de 15 años cómo vivió la erupción del volcán de La Palma.",
-    "Un chatbot donde una vulcanóloga explica a alumnos de 15 años cómo se vigiló el volcán de La Palma en 2021.",
-    "Un chatbot donde Aday, un niño de 11 años, cuenta cómo cambió su vida cuando el volcán de La Palma le obligó a dejar su casa."
+    "Crea un chatbot con una imagen de Candelaria, agricultora de Todoque, en el que cuenta a alumnos de 15 años cómo vivió la erupción del volcán de La Palma.",
+    "Crea un chatbot con una imagen de Elena, vulcanóloga, en el que explica a alumnos de 15 años cómo vigiló día y noche el volcán de La Palma en 2021.",
+    "Crea un chatbot con una imagen de Aday, un niño de 11 años, en el que cuenta cómo cambió su vida cuando el volcán de La Palma le obligó a dejar su casa."
   ];
   IDEAS.forEach(function (t) {
     var d = document.createElement("div"); d.className = "idea";
@@ -694,7 +678,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
   $("f-real").addEventListener("change", refresh);
   refresh();
   $("b-copy").addEventListener("click", function () { copyText(buildPrompt(false), $("copy-toast"), "Copiado. Pégalo en las instrucciones del chat en PartyRock.", $("prompt-out")); });
-  $("b-to-eval").addEventListener("click", function () { $("f-test").value = buildPrompt(false); location.hash = "evalua"; analyze(); });
+
 
   /* ---------- 3. Evalúa ---------- */
   // Seis criterios de la rúbrica del Test de Turing. Cada uno tiene dos "ingredientes"
@@ -726,10 +710,10 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
       add: ["De vez en cuando, plantea un dilema: ¿qué habrías hecho tú?, ¿qué se podría haber hecho distinto?", "Trata lo ocurrido con respeto y dignidad: hay personas reales detrás de esta historia."] }
   ];
   var VERDICTS = [
-    { min: 0, t: "Cebolla cruda", s: "Suena a buscador: pica, pero no sabe a nada. Pulsa «Mejorar mi prompt»." },
+    { min: 0, t: "Cebolla cruda", s: "Suena a buscador: pica, pero no sabe a nada. Añade las capas que faltan en Afina." },
     { min: 40, t: "Pochándose", s: "Ya tiene forma de personaje, pero le faltan capas para que suene humano." },
     { min: 70, t: "Sofrito en su punto", s: "Pasa el Test de Turing: tu alumnado olvidaría que habla con una IA." },
-    { min: 90, t: "Para chuparse los dedos", s: "Ya sabes hacer tu sofrito: eres autónomo con la IA." }
+    { min: 90, t: "Para chuparse los dedos", s: "Ya no sigues recetas: creas las tuyas con IA." }
   ];
   var scores = {}, promptRes = null;
 
@@ -769,7 +753,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     if (ref === null) {
       var rated = CRIT.filter(function (c) { return scores[c.id]; }).length;
       $("v-title").textContent = "¿Cuánto sofrito tiene?";
-      $("v-sub").textContent = rated ? "Llevas " + rated + " de 6 criterios puntuados." : "Pega tu prompt y pruébalo 5 minutos.";
+      $("v-sub").textContent = rated ? "Llevas " + rated + " de 6 criterios puntuados." : "Haz las dos evaluaciones.";
       return;
     }
     var v = VERDICTS.filter(function (x) { return ref >= x.min; }).pop();
@@ -786,14 +770,27 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
       var b = document.createElement("b"); b.textContent = r.c.name;
       var d = document.createElement("span"); d.className = "dots"; d.setAttribute("aria-label", r.n + " de 2 ingredientes");
       d.innerHTML = '<i class="' + (r.n > 0 ? "on" : "") + '"></i><i class="' + (r.n > 1 ? "on" : "") + '"></i>';
-      li.appendChild(b); li.appendChild(d); ul.appendChild(li);
+      li.appendChild(b); li.appendChild(d);
+      var miss = r.hits.map(function (h, k) { return h ? null : r.c.add[k]; }).filter(Boolean);
+      if (miss.length) { var tip = document.createElement("span"); tip.className = "tip"; tip.textContent = "Añade: " + miss.join(" "); li.appendChild(tip); }
+      ul.appendChild(li);
     });
     ul.hidden = false;
     setMeter("prompt", promptRes.pct);
     updateVerdict();
   }
   $("b-analyze").addEventListener("click", analyze);
-  $("b-bring").addEventListener("click", function () { $("f-test").value = buildPrompt(false); analyze(); });
+  // Al entrar en Evalúa, el prompt de Afina aparece por defecto (si no se ha pegado otro)
+  var lastAuto = "";
+  function prefill() {
+    if ((location.hash || "") !== "#evalua") return;
+    var t = $("f-test").value;
+    if (val("nombre") && (t === "" || t === lastAuto)) {
+      lastAuto = buildPrompt(false); $("f-test").value = lastAuto; analyze();
+    }
+  }
+  window.addEventListener("hashchange", prefill);
+  prefill();
 
   function renderRubric() {
     var wrap = $("rubric"); wrap.innerHTML = "";
@@ -820,35 +817,6 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
   }
   renderRubric();
 
-  /* Mejorar el prompt: añade las capas que faltan en el texto o que la rúbrica marca como flojas */
-  $("b-improve").addEventListener("click", function () {
-    var text = $("f-test").value.trim();
-    if (!text) { $("f-test").placeholder = "Primero pega aquí tu prompt (o pulsa «Traer el de Afina»)."; $("f-test").focus(); return; }
-    var before = checkPrompt(text), nt = norm(text), adds = [];
-    before.rows.forEach(function (r) {
-      var low = scores[r.c.id] && scores[r.c.id] <= 2;
-      r.hits.forEach(function (hit, k) {
-        var line = r.c.add[k];
-        var already = nt.indexOf(norm(line).slice(0, 28)) !== -1;
-        if ((!hit || low) && !already && adds.indexOf(line) === -1) adds.push(line);
-      });
-    });
-    var improved = adds.length ? text + "\n\nCapas de sofrito:\n" + adds.map(function (a) { return "- " + a; }).join("\n") : text;
-    var after = checkPrompt(improved);
-    $("improved-out").innerHTML = esc(text) + (adds.length ? "\n\n<mark>Capas de sofrito:</mark>\n" + adds.map(function (a) { return "<mark>- " + esc(a) + "</mark>"; }).join("\n") : "");
-    $("c-before").textContent = before.pct + "%";
-    $("c-after").textContent = after.pct + "%";
-    $("c-before").hidden = $("c-arrow").hidden = !adds.length;
-    $("improve-toast").textContent = adds.length ? "" : "Tu prompt ya tiene todos los ingredientes. Si el chatbot aún falla, puntúa la rúbrica y vuelve a pulsar.";
-    $("improved").hidden = false; popIt($("improved"));
-    $("improved").dataset.text = improved;
-    $("f-test").value = improved; analyze();
-    $("improved").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
-  });
-  $("b-copy-improved").addEventListener("click", function () {
-    copyText($("improved").dataset.text || "", $("improve-toast"), "Copiado. Pégalo en tu chatbot y vuelve a probar.", $("improved-out"));
-  });
-
   /* Temporizador de 5 minutos */
   var left = 300, tick = null;
   function draw() {
@@ -869,11 +837,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
   $("b-timer-reset").addEventListener("click", resetTimer);
   draw();
 
-  $("b-reset").addEventListener("click", function () {
-    scores = {}; promptRes = null; $("f-test").value = ""; $("ingr").hidden = true; $("improved").hidden = true;
-    setMeter("prompt", null); setMeter("bot", null); renderRubric(); updateVerdict(); resetTimer();
-    window.scrollTo(0, 0);
-  });
+
 })();
 </script>
 </body>

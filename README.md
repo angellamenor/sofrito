@@ -1,20 +1,22 @@
 # Sofrito
 
-*Tu receta para ser autónomo con la IA.*
+*Deja de seguir recetas y crea las tuyas con IA.*
 
-Ser autónomo no es alquilar un piso ni ponerle internet: eres autónomo el día que sabes hacer un sofrito. Con la IA pasa igual: no eres autónomo por usarla, sino cuando sabes humanizarla.
+Dicen que empiezas a ser mayor de verdad el día que ya no llamas a tus padres para preguntar cómo se hace un sofrito. Con la IA pasa lo mismo: el aprendizaje llega cuando dejas de seguir recetas ajenas y empiezas a crear las tuyas. Eso es humanizar la IA.
+
+Proyecto gratuito y sin ánimo de lucro, hecho para ayudar a los docentes.
 
 App del taller para docentes **Humanizar la IA**, de Ángel Luis González Serrano.
 
 Los participantes dan voz con IA a alguien que vivió la erupción de La Palma de 2021, en tres pasos y desde el móvil:
 
-1. **Crea**: el chatbot en https://partyrock.aws/ a partir de una frase.
+1. **Crea**: el chatbot en https://partyrock.aws/ («Usar IA» → «Flow») a partir de una frase, con imagen del personaje.
 2. **Afina**: el personaje capa a capa (generales, actitudinales, situacionales y aula), siguiendo La Cebolla Sónica. Empieza en blanco y se pueden cargar ejemplos. Genera el prompt listo para pegar.
-3. **Evalúa**: analiza el prompt, 5 minutos de conversación con temporizador, rúbrica del Test de Turing de 6 criterios y botón «Mejorar mi prompt», que añade las capas que faltan.
+3. **Evalúa**: dos evaluaciones. La automática revisa los ingredientes del prompt y sugiere qué añadir; la humana es una conversación de 5 minutos con temporizador y la rúbrica del Test de Turing de 6 criterios.
 
 ## Uso
 
-Es una web instalable (PWA): se abre desde un enlace y se puede instalar como app con su icono en el móvil o en el ordenador. Al abrirla en el navegador pide instalarla: se trabaja siempre con la app instalada. Para usarla en el navegador (por ejemplo, para proyectarla) añade `#web` al final de la dirección. Una vez instalada, funciona también sin conexión. La primera vez muestra una animación de bienvenida (se puede repetir tocando el logo de Inicio).
+Es una web instalable (PWA): se abre desde un enlace y se puede instalar como app con su icono en el móvil o en el ordenador. Al abrirla en el navegador pide instalarla: se trabaja siempre con la app instalada. Para usarla en el navegador (por ejemplo, para proyectarla) añade `#web` al final de la dirección. Una vez instalada, funciona también sin conexión. Cada vez que se abre muestra una animación de bienvenida (también se repite tocando el logo de Inicio).
 
 Archivos:
 
