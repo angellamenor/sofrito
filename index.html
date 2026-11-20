@@ -297,6 +297,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     <b>partyrock.aws</b>
     <i>Abrir</i>
   </a>
+  <p class="soft"><b>Truco:</b> cuando se abra PartyRock, pásalo al navegador para poder ir y volver de Sofrito sin perderlo. En <b>Android</b>, pulsa los tres puntos <b>⋮</b> y elige <b>«Abrir en Chrome»</b>. En <b>iPhone</b>, pulsa el icono de la brújula de <b>Safari</b>.</p>
 
   <div class="box">
     <ol class="lst">
@@ -363,7 +364,6 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     <p class="small muted">Pégalo en las instrucciones del chat de tu app en PartyRock.</p>
     <div class="btns">
       <button type="button" class="btn alt" id="b-copy">Copiar prompt</button>
-      <a class="btn alt pr-link" href="https://partyrock.aws/" target="_blank" rel="noopener">Abrir PartyRock</a>
     </div>
     <p class="toast" id="copy-toast" role="status"></p>
   </div>
@@ -409,7 +409,6 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
       </div>
     </div>
     <p class="small muted">Pregúntale como lo haría tu alumnado. Después puntúa cómo ha respondido.</p>
-    <a class="btn alt pr-link" href="https://partyrock.aws/" target="_blank" rel="noopener">Abrir mi chatbot en PartyRock</a>
     <div id="rubric"></div>
   </div>
 </section>
@@ -593,16 +592,6 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
   if ("serviceWorker" in navigator && location.protocol === "https:") {
     try { navigator.serviceWorker.register("sw.js").catch(function () {}); } catch (e) {}
   }
-
-  /* Abrir PartyRock fuera de la app: en Android (app instalada) se abre Chrome; en el resto, nueva pestaña */
-  document.querySelectorAll(".pr-link").forEach(function (a) {
-    a.addEventListener("click", function (e) {
-      if (isAndroid && isStandalone()) {
-        e.preventDefault();
-        location.href = "intent://partyrock.aws/#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=" + encodeURIComponent("https://partyrock.aws/") + ";end";
-      }
-    });
-  });
 
   /* ---------- 1. Crea ---------- */
   var IDEAS = [
