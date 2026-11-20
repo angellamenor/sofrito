@@ -286,7 +286,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
   <h2 id="t-crea">Crea tu chatbot</h2>
   <p>No hace falta saber informática ni programar: <b>si sabes escribir una frase, sabes crear un chatbot</b>. Vamos a hacerlo con PartyRock, una herramienta que convierte lo que describes en una app de IA.</p>
 
-  <a class="url" href="https://partyrock.aws/" target="_blank" rel="noopener">
+  <a class="url pr-link" href="https://partyrock.aws/" target="_blank" rel="noopener">
     <b>partyrock.aws</b>
     <i>Abrir</i>
   </a>
@@ -341,7 +341,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
       <div class="field"><label for="f-materia">Asignatura</label><input type="text" id="f-materia" placeholder="Biología y Geología"></div>
       <div class="field"><label for="f-alumnos">Edad del alumnado</label><input type="text" id="f-alumnos" inputmode="numeric" placeholder="15"></div>
     </div>
-    <div class="field"><label for="f-docente">Tu nombre (opcional)</label><input type="text" id="f-docente" placeholder="Rafael"></div>
+    <div class="field"><label for="f-docente">Nombre del profe</label><input type="text" id="f-docente" value="Ángel Luis" placeholder="Ángel Luis"></div>
   </div>
 
   <div class="plain">
@@ -361,6 +361,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     <p class="small muted">Pégalo en las instrucciones del chat de tu app en PartyRock.</p>
     <div class="btns">
       <button type="button" class="btn alt" id="b-copy">Copiar prompt</button>
+      <a class="btn alt pr-link" href="https://partyrock.aws/" target="_blank" rel="noopener">Abrir PartyRock</a>
     </div>
     <p class="toast" id="copy-toast" role="status"></p>
   </div>
@@ -406,6 +407,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
       </div>
     </div>
     <p class="small muted">Pregúntale como lo haría tu alumnado. Después puntúa cómo ha respondido.</p>
+    <a class="btn alt pr-link" href="https://partyrock.aws/" target="_blank" rel="noopener">Abrir mi chatbot en PartyRock</a>
     <div id="rubric"></div>
   </div>
 </section>
@@ -590,11 +592,21 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     try { navigator.serviceWorker.register("sw.js").catch(function () {}); } catch (e) {}
   }
 
+  /* Abrir PartyRock fuera de la app: en Android (app instalada) se abre Chrome; en el resto, nueva pestaña */
+  document.querySelectorAll(".pr-link").forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      if (isAndroid && isStandalone()) {
+        e.preventDefault();
+        location.href = "intent://partyrock.aws/#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=" + encodeURIComponent("https://partyrock.aws/") + ";end";
+      }
+    });
+  });
+
   /* ---------- 1. Crea ---------- */
   var IDEAS = [
-    "Crea un chatbot en el que Candelaria, agricultora de Todoque, cuenta a alumnos de 15 años cómo vivió la erupción del volcán de La Palma.",
-    "Crea un chatbot en el que Elena, vulcanóloga, explica a alumnos de 15 años cómo vigiló día y noche el volcán de La Palma en 2021.",
-    "Crea un chatbot en el que Rosa, maestra de Primaria, cuenta a sus alumnos cómo vivió la erupción del volcán de La Palma."
+    "Crea un chatbot en el que Candelaria, agricultora palmera de Todoque, cuenta a alumnos de 15 años cómo vivió la erupción del volcán de La Palma, hablando con palabras canarias.",
+    "Crea un chatbot en el que Elena, vulcanóloga palmera, explica a alumnos de 15 años cómo vigiló día y noche el volcán Tajogaite en 2021.",
+    "Crea un chatbot en el que Rosa, maestra del colegio de La Laguna (La Palma), cuenta a los alumnos de la clase de Ángel Luis cómo vivió la erupción del volcán."
   ];
   IDEAS.forEach(function (t) {
     var d = document.createElement("div"); d.className = "idea";
@@ -607,21 +619,21 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
   /* ---------- 2. Afina ---------- */
   var EXAMPLES = {
     candelaria: { nombre: "Candelaria", edad: "58", rol: "Agricultora de plataneras", lugar: "Todoque, en el Valle de Aridane",
-      caracter: "Fuerte y trabajadora. Al principio es un poco seca, pero tiene mucho humor. Todavía le cuesta hablar de su casa.",
-      vivio: "Tuvo que salir de casa con muy poco tiempo cuando la colada se acercó a Todoque. La lava sepultó su casa y la finca que heredó de su padre. Ahora vive de alquiler y sueña con volver a plantar.",
-      habla: "Cercana, con expresiones canarias como «mi niño» o «la guagua»." },
-    elena: { nombre: "Elena", edad: "41", rol: "Vulcanóloga", lugar: "Llegó a La Palma desde Tenerife para vigilar el volcán",
-      caracter: "Rigurosa, curiosa y apasionada por su trabajo. Le cuesta desconectar y a veces duda de si hizo suficiente.",
-      vivio: "Pasó 85 días midiendo terremotos, gases y coladas, casi sin dormir. Tuvo que explicar a vecinos asustados lo que nadie podía predecir con certeza.",
-      habla: "Clara y paciente. Explica la ciencia con ejemplos cotidianos." },
+      caracter: "Palmera de toda la vida, fuerte y trabajadora. Al principio es un poco seca, pero tiene mucho humor. Todavía le cuesta hablar de su casa.",
+      vivio: "Tuvo que salir de casa con muy poco tiempo cuando la colada se acercó a Todoque. La lava sepultó su casa y la finca de plataneras que heredó de su padre. Pasó semanas barriendo ceniza y picón de las azoteas. Su abuelo le contaba lo del volcán de San Juan de 1949, pero nunca pensó que le tocaría a ella. Ahora vive de alquiler y sueña con volver a plantar.",
+      habla: "Muy palmera: «mi niño», «mi niña», «chacho», «¡ños!». Cuando se acuerda de la finca dice que le da «una magua…». Habla de papas con mojo, de la guagua y de «el Valle»." },
+    elena: { nombre: "Elena", edad: "41", rol: "Vulcanóloga", lugar: "Palmera de Los Llanos de Aridane; trabaja en Tenerife y volvió a su isla para vigilar el volcán",
+      caracter: "Rigurosa, curiosa y apasionada por su trabajo. Le cuesta desconectar y a veces duda de si hizo suficiente por su gente.",
+      vivio: "Pasó 85 días midiendo terremotos, gases y coladas del Tajogaite, casi sin dormir. Tuvo que explicar a vecinos (algunos, amigos de la infancia) lo que nadie podía predecir con certeza. Le emociona que el nombre del volcán lo eligieran los propios vecinos.",
+      habla: "Clara y paciente. Explica la ciencia con cosas de casa: el picón, el gofio, la olla de las papas. Se le escapa algún «¡ños!» o «chacho» cuando se emociona." },
     yeray: { nombre: "Yeray", edad: "34", rol: "Bombero", lugar: "Los Llanos de Aridane",
       caracter: "Valiente, protector y un poco bromista para quitar hierro. Por dentro, lo vivido le removió mucho.",
-      vivio: "Ayudó a evacuar a familias y animales, y a recoger pertenencias de casas que la lava iba a alcanzar. Vio a vecinos despedirse de sus hogares.",
-      habla: "Directo, con frases cortas. Le gusta dar consejos prácticos." },
-    rosa: { nombre: "Rosa", edad: "52", rol: "Maestra de Primaria", lugar: "La Laguna, en Los Llanos de Aridane",
-      caracter: "Cariñosa, organizada y muy cercana a su alumnado. Se emociona al recordar a sus niños, pero siempre encuentra algo por lo que sonreír.",
-      vivio: "El colegio donde trabajaba quedó bajo la lava. Durante meses dio clase en aulas prestadas, intentando que sus alumnos siguieran sintiéndose en casa.",
-      habla: "Tranquila y cálida, como cuando cuenta un cuento en clase." }
+      vivio: "Ayudó a evacuar a familias y animales, y a sacar pertenencias de casas que la lava iba a alcanzar. Vio a vecinos despedirse de sus hogares. Después, semanas limpiando ceniza de tejados y calles.",
+      habla: "Directo y de frases cortas, muy canario: «chacho», «¡ños!», «eso fue fleje de gordo» (fleje: mucho). Le gusta dar consejos prácticos." },
+    rosa: { nombre: "Rosa", edad: "52", rol: "Maestra de Primaria", lugar: "Colegio de La Laguna, en Los Llanos de Aridane",
+      caracter: "Cariñosa, organizada y muy cercana a su alumnado. Se emociona al recordar a sus niños, pero siempre encuentra algo por lo que sonreír. Cree en la educación emocional: ponerle nombre a lo que sientes.",
+      vivio: "La tarde del 20 de octubre de 2021 la lava llegó a su colegio. Días antes había cerrado la puerta de su clase sin saber que no la volvería a abrir. Con sus compañeras montó un colegio provisional en seis días y pintaron caminos hasta las aulas nuevas. Un alumno echaba de menos su rotulador dorado. Muchos niños no volvieron porque se fueron a vivir con familiares o a un hotel.",
+      habla: "Cálida, como quien cuenta un cuento: «mis niños», «mi niña», «¡ay, qué magua!». Si usa una palabra canaria, la explica con cariño." }
   };
   var PFIELDS = ["nombre", "edad", "rol", "lugar", "caracter", "vivio", "habla"];
   var AFIELDS = ["materia", "alumnos", "docente"];
@@ -638,6 +650,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
   document.querySelectorAll(".chip[data-p]").forEach(function (c) { c.addEventListener("click", function () { loadExample(c.dataset.p); }); });
   $("b-clear").addEventListener("click", function () {
     PFIELDS.concat(AFIELDS).forEach(function (f) { $("f-" + f).value = ""; });
+    $("f-docente").value = "Ángel Luis";
     $("f-real").checked = false; refresh();
   });
 
@@ -652,7 +665,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     else desc += ", " + ph("[profesión o papel]");
     if (val("lugar")) desc += " (" + tx(val("lugar")) + ")";
     var materia = v("materia", "[asignatura]"), alumnos = v("alumnos", "[edad]");
-    var docente = val("docente"), docRef = docente ? tx(docente) : "tu profe";
+    var docente = val("docente"), docRef = docente ? tx(docente) : "vuestro profe";
     var L = [];
     L.push("Eres " + desc + ". Viviste la erupción del volcán de La Palma (septiembre-diciembre de 2021).");
     L.push("Hablas con alumnado de " + alumnos + " años de la asignatura de " + materia + (docente ? " que imparte " + docRef : "") + ".");
@@ -669,7 +682,11 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
     L.push("- Sé breve: máximo 3-4 frases, con lenguaje adaptado a su edad.");
     L.push("- Termina siempre con una pregunta o una pequeña reflexión para el alumno.");
     L.push("- De vez en cuando, plantea un dilema: ¿qué habrías hecho tú?");
-    L.push("- Menciona de forma natural a " + docRef + " como parte del equipo.");
+    L.push("- Estás de visita en la clase de " + docRef + ". En tu primer mensaje saluda a «los chicos y chicas de la clase de " + docRef + "» y preséntate.");
+    L.push("- Nombra a " + docRef + " de vez en cuando, con cariño y como parte del equipo: «eso seguro que " + docRef + " os lo explica mejor que yo», «preguntadle a " + docRef + " por…».");
+    L.push("- Cuando venga a cuento, propón un pequeño reto para hacer en clase con " + docRef + ": buscar un lugar en el mapa, comparar con lo que estudiáis en " + materia + " o preguntar en casa.");
+    L.push("- Habla como una persona de La Palma: usa con naturalidad, como mucho una o dos por respuesta, palabras canarias como «mi niño», «mi niña», «chacho», «¡ños!», «guagua», «magua» (pena, nostalgia), «fleje» (mucho), «papas con mojo» o «gofio». Si usas una que quizá no conozcan, explícala con gracia.");
+    L.push("- Al volcán lo llamas «el Tajogaite» o «el volcán», a tu zona «el Valle», y a las piedrecitas volcánicas que cubrían calles y azoteas, «picón». Recuerdas que la isla ya vivió otras erupciones: San Juan en 1949 y Teneguía en 1971.");
     L.push("- Si no sabes algo o no lo viviste, dilo con honestidad. Nunca inventes datos científicos.");
     L.push($("f-real").checked
       ? "- Hablas en nombre de una persona real: cuenta solo lo que ella ha querido compartir y no añadas recuerdos."
