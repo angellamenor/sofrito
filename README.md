@@ -10,7 +10,7 @@ App del taller para docentes **Humanizar la IA**, de Ángel Luis González Serra
 
 Los participantes dan voz con IA a alguien que vivió la erupción de La Palma de 2021, en tres pasos y desde el móvil:
 
-1. **Crea**: el chatbot en https://partyrock.aws/ («Usar IA» → «Flow») a partir de una frase, con imagen del personaje.
+1. **Crea**: el chatbot en https://partyrock.aws/ («Usar IA» → «Flow») a partir de una frase.
 2. **Afina**: el personaje capa a capa (generales, actitudinales, situacionales y aula), siguiendo La Cebolla Sónica. Empieza en blanco y se pueden cargar ejemplos. Genera el prompt listo para pegar.
 3. **Evalúa**: dos evaluaciones. La automática revisa los ingredientes del prompt y sugiere qué añadir; la humana es una conversación de 5 minutos con temporizador y la rúbrica del Test de Turing de 6 criterios.
 

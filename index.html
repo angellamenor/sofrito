@@ -292,11 +292,11 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
   <div class="box">
     <ol class="lst">
       <li><span class="o">1. Entra</span> en PartyRock e inicia sesión.</li>
-      <li><span class="o">2. Ve a «Usar IA»</span> y genera un <b>«Flow»</b>. Descríbelo en una frase y pide que tenga una imagen del personaje. Copia una de estas ideas o escribe una tuya parecida:</li>
+      <li><span class="o">2. Ve a «Usar IA»</span> y genera un <b>«Flow»</b>. Descríbelo en una frase. Copia una de estas ideas o escribe una tuya parecida:</li>
     </ol>
     <div class="lst" id="ideas"></div>
     <ol class="lst">
-      <li><span class="o">3. Crea.</span> PartyRock monta tu app con la imagen del personaje y el chat.</li>
+      <li><span class="o">3. Crea.</span> PartyRock monta tu app con el chat del personaje.</li>
       <li><span class="o">4. Pruébala</span> con dos o tres preguntas.</li>
     </ol>
     <p class="toast" id="idea-toast" role="status"></p>
@@ -348,7 +348,7 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
       <button type="button" class="chip" data-p="candelaria">Candelaria, agricultora</button>
       <button type="button" class="chip" data-p="elena">Elena, vulcanóloga</button>
       <button type="button" class="chip" data-p="yeray">Yeray, bombero</button>
-      <button type="button" class="chip" data-p="aday">Aday, 11 años</button>
+      <button type="button" class="chip" data-p="rosa">Rosa, maestra</button>
       <button type="button" class="chip ghost" id="b-clear">Vaciar</button>
     </div>
   </div>
@@ -589,9 +589,9 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
 
   /* ---------- 1. Crea ---------- */
   var IDEAS = [
-    "Crea un chatbot con una imagen de Candelaria, agricultora de Todoque, en el que cuenta a alumnos de 15 años cómo vivió la erupción del volcán de La Palma.",
-    "Crea un chatbot con una imagen de Elena, vulcanóloga, en el que explica a alumnos de 15 años cómo vigiló día y noche el volcán de La Palma en 2021.",
-    "Crea un chatbot con una imagen de Aday, un niño de 11 años, en el que cuenta cómo cambió su vida cuando el volcán de La Palma le obligó a dejar su casa."
+    "Crea un chatbot en el que Candelaria, agricultora de Todoque, cuenta a alumnos de 15 años cómo vivió la erupción del volcán de La Palma.",
+    "Crea un chatbot en el que Elena, vulcanóloga, explica a alumnos de 15 años cómo vigiló día y noche el volcán de La Palma en 2021.",
+    "Crea un chatbot en el que Rosa, maestra de Primaria, cuenta a sus alumnos cómo vivió la erupción del volcán de La Palma."
   ];
   IDEAS.forEach(function (t) {
     var d = document.createElement("div"); d.className = "idea";
@@ -615,10 +615,10 @@ nav.tabs a[aria-current="page"] { color: var(--orange); background: var(--orange
       caracter: "Valiente, protector y un poco bromista para quitar hierro. Por dentro, lo vivido le removió mucho.",
       vivio: "Ayudó a evacuar a familias y animales, y a recoger pertenencias de casas que la lava iba a alcanzar. Vio a vecinos despedirse de sus hogares.",
       habla: "Directo, con frases cortas. Le gusta dar consejos prácticos." },
-    aday: { nombre: "Aday", edad: "11", rol: "Alumno de 6º de Primaria", lugar: "La Laguna, en Los Llanos de Aridane",
-      caracter: "Curioso, hablador y muy observador. A veces se pone triste sin saber muy bien por qué.",
-      vivio: "Tuvo que dejar su casa y cambiar de colegio. Echa de menos a sus amigos del barrio y su habitación. Desde la ventana de su tía veía el volcán por la noche.",
-      habla: "Como un niño de su edad: espontáneo, con preguntas y alguna exageración." }
+    rosa: { nombre: "Rosa", edad: "52", rol: "Maestra de Primaria", lugar: "La Laguna, en Los Llanos de Aridane",
+      caracter: "Cariñosa, organizada y muy cercana a su alumnado. Se emociona al recordar a sus niños, pero siempre encuentra algo por lo que sonreír.",
+      vivio: "El colegio donde trabajaba quedó bajo la lava. Durante meses dio clase en aulas prestadas, intentando que sus alumnos siguieran sintiéndose en casa.",
+      habla: "Tranquila y cálida, como cuando cuenta un cuento en clase." }
   };
   var PFIELDS = ["nombre", "edad", "rol", "lugar", "caracter", "vivio", "habla"];
   var AFIELDS = ["materia", "alumnos", "docente"];
